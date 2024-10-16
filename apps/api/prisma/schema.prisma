@@ -40,10 +40,11 @@ model Project {
 
 model ProjectItem {
   id        String @id @default(cuid())
-  quantity  Int
-  unitPrice Float
+  assetUrl  String
+  quantity  Int    @default(1)
+  unitPrice Float?
 
-  project          Project        @relation(fields: [projectId], references: [id])
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId        String
   material         Material       @relation(fields: [materialId], references: [id])
   materialId       String
@@ -56,6 +57,7 @@ model Material {
   name     String  @unique
   price    Float
   archived Boolean @default(false)
+  default  Boolean @default(false)
 
   items ProjectItem[]
 }
@@ -91,6 +93,7 @@ model ServicePackage {
   name     String
   price    Float
   archived Boolean @default(false)
+  default  Boolean @default(false)
 
   items ProjectItem[]
 }

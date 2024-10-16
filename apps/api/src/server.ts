@@ -2,14 +2,24 @@ import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
+import { PrismaClient } from "@prisma/client";
+import { exceptionsHandler } from "./modules/common/middlewares/exceptions-handler.middleware";
+import { routeNotFound } from "./modules/common/middlewares/route-not-found.middleware";
+import { generateAuthRouter } from "./modules/auth/auth.routes";
 import { generateProjectsRouter } from "./modules/projects/projects.routes";
+import { authenticate } from "./modules/auth/middlewares/authentication.middleware";
 
 function generateRouter() {
   const router = express.Router();
-  router.use("/projects", generateProjectsRouter());
+  const db = new PrismaClient();
+
+  router.use("/auth", generateAuthRouter({ db }));
+  router.use("/projects", authenticate, generateProjectsRouter({ db }));
+
   router.get("/health", (_, res) => {
     return res.status(200).send();
   });
+
   return router;
 }
 
@@ -22,9 +32,8 @@ export function createServer(): Express {
     .use(json())
     .use(cors())
     .use("/api", generateRouter())
-    .get("*", (_, res) => {
-      return res.status(404).send();
-    });
+    .use(routeNotFound)
+    .use(exceptionsHandler);
 
   return app;
 }
