@@ -68,6 +68,8 @@ export class ProjectsService {
     dto: UpdateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
+    await this.assertEntityExists(props);
+
     const entity = await this.db.project.update({
       where: { id: props.id, ownerId: props.user.id },
       data: props.dto,

@@ -8,6 +8,7 @@ import { routeNotFound } from "./modules/common/middlewares/route-not-found.midd
 import { generateAuthRouter } from "./modules/auth/auth.routes";
 import { generateProjectsRouter } from "./modules/projects/projects.routes";
 import { authenticate } from "./modules/auth/middlewares/authentication.middleware";
+import { generateProjectItemsRouter } from "./modules/project-items/project-items.routes";
 
 function generateRouter() {
   const router = express.Router();
@@ -15,6 +16,11 @@ function generateRouter() {
 
   router.use("/auth", generateAuthRouter({ db }));
   router.use("/projects", authenticate, generateProjectsRouter({ db }));
+  router.use(
+    "/project-items",
+    authenticate,
+    generateProjectItemsRouter({ db })
+  );
 
   router.get("/health", (_, res) => {
     return res.status(200).send();
