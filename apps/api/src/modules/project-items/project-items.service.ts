@@ -41,7 +41,7 @@ export class ProjectItemsService {
 
     if (!hasAccessToProject) {
       throw new UnauthorizedException(
-        "User does not have access to parent project."
+        "User does not have access to parent project.",
       );
     }
 

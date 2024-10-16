@@ -19,7 +19,7 @@ function generateRouter() {
   router.use(
     "/project-items",
     authenticate,
-    generateProjectItemsRouter({ db })
+    generateProjectItemsRouter({ db }),
   );
 
   router.get("/health", (_, res) => {
