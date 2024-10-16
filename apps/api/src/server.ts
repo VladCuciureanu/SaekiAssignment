@@ -2,8 +2,18 @@ import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
+import { generateProjectsRouter } from "./modules/projects/projects.routes";
 
-export const createServer = (): Express => {
+function generateRouter() {
+  const router = express.Router();
+  router.use("/projects", generateProjectsRouter());
+  router.get("/health", (_, res) => {
+    return res.status(200).send();
+  });
+  return router;
+}
+
+export function createServer(): Express {
   const app = express();
   app
     .disable("x-powered-by")
@@ -11,9 +21,10 @@ export const createServer = (): Express => {
     .use(urlencoded({ extended: true }))
     .use(json())
     .use(cors())
-    .get("/api/status", (_, res) => {
-      return res.json({ ok: true });
+    .use("/api", generateRouter())
+    .get("*", (_, res) => {
+      return res.status(404).send();
     });
 
   return app;
-};
+}

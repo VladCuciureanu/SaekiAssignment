@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+model User {
+  id      String  @id @default(cuid())
+  email   String  @unique
+  isAdmin Boolean @default(false)
+
+  projects            Project[]
+  supportTickets      SupportTicket[] @relation("support_ticket_client")
+  supportTicketsAgent SupportTicket[] @relation("support_ticket_agent")
+  messages            Message[]
+}
+
+enum ProjectStatus {
+  Created
+  AutoQuoted
+  ManuallyQuoted
+  Ordered
+  InProduction
+  ReadyForShipping
+  Shipped
+  Delivered
+}
+
+model Project {
+  id     String        @id @default(cuid())
+  status ProjectStatus @default(Created)
+
+  owner          User            @relation(fields: [ownerId], references: [id])
+  ownerId        String
+  items          ProjectItem[]
+  supportTickets SupportTicket[]
+
+  createdAt DateTime @default(now())
+}
+
+model ProjectItem {
+  id        String @id @default(cuid())
+  quantity  Int
+  unitPrice Float
+
+  project          Project        @relation(fields: [projectId], references: [id])
+  projectId        String
+  material         Material       @relation(fields: [materialId], references: [id])
+  materialId       String
+  servicePackage   ServicePackage @relation(fields: [servicePackageId], references: [id])
+  servicePackageId String
+}
+
+model Material {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  price    Float
+  archived Boolean @default(false)
+
+  items ProjectItem[]
+}
+
+model SupportTicket {
+  id String @id @default(cuid())
+
+  project   Project   @relation(fields: [projectId], references: [id])
+  projectId String
+  client    User      @relation("support_ticket_client", fields: [clientId], references: [id])
+  clientId  String
+  agent     User      @relation("support_ticket_agent", fields: [agentId], references: [id])
+  agentId   String
+  messages  Message[]
+
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id      String @id @default(cuid())
+  content String
+
+  supportTicket   SupportTicket @relation(fields: [supportTicketId], references: [id])
+  supportTicketId String
+  sender          User          @relation(fields: [senderId], references: [id])
+  senderId        String
+
+  createdAt DateTime @default(now())
+}
+
+model ServicePackage {
+  id       String  @id @default(cuid())
+  name     String
+  price    Float
+  archived Boolean @default(false)
+
+  items ProjectItem[]
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
