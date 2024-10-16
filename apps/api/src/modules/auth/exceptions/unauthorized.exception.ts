@@ -1,4 +1,4 @@
-import { BaseException } from "./base.exception";
+import { BaseException } from "../../common/exceptions/base.exception";
 
 export class UnauthorizedException extends BaseException {
   constructor(message = "Unauthorized.") {

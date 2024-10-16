@@ -5,9 +5,9 @@ import jwt, {
 } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { env } from "../../env";
-import { InvalidTokenException } from "../../common/exceptions/invalid-token.exception";
-import { TokenExpiredException } from "../../common/exceptions/token-expired.exception";
-import { UnauthorizedException } from "../../common/exceptions/unauthorized.exception";
+import { InvalidTokenException } from "../exceptions/invalid-token.exception";
+import { TokenExpiredException } from "../exceptions/token-expired.exception";
+import { UnauthorizedException } from "../exceptions/unauthorized.exception";
 
 export const authenticate = async (
   req: Request,
