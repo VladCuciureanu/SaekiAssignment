@@ -23,7 +23,7 @@ export class AuthService {
 
     const mappedUser = UserDto.fromEntity(user);
 
-    const token = jwt.sign({ user: mappedUser }, env.JWT_SECRET_KEY!);
+    const token = jwt.sign({ user: mappedUser }, env.JWT_SECRET_KEY);
 
     return token;
   }

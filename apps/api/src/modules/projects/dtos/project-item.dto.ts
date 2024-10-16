@@ -1,9 +1,10 @@
-import { Prisma, ProjectItem } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { MaterialDto } from "../../materials/dtos/material.dto";
 import { ServicePackageDto } from "../../service-packages/dtos/service-package.dto";
 
 export class ProjectItemDto {
   id: string;
+  assetUrl: string;
   quantity: number;
   unitPrice?: number;
   material: MaterialDto;
@@ -11,12 +12,14 @@ export class ProjectItemDto {
 
   constructor(props: {
     id: string;
+    assetUrl: string;
     quantity: number;
     unitPrice?: number;
     material: MaterialDto;
     servicePackage: ServicePackageDto;
   }) {
     this.id = props.id;
+    this.assetUrl = props.assetUrl;
     this.quantity = props.quantity;
     this.unitPrice = props.unitPrice;
     this.material = props.material;
@@ -30,6 +33,7 @@ export class ProjectItemDto {
   ): ProjectItemDto {
     return new ProjectItemDto({
       id: entity.id,
+      assetUrl: entity.assetUrl,
       quantity: entity.quantity,
       unitPrice: entity.unitPrice ?? undefined,
       material: MaterialDto.fromEntity(entity.material),

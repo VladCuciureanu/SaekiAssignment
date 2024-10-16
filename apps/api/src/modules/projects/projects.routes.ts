@@ -2,6 +2,9 @@ import { Router } from "express";
 import { ProjectsController } from "./projects.controller";
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
+import { CreateProjectDtoSchema } from "./dtos/create-project.dto";
+import { validate } from "../common/middlewares/schema-validation.middleware";
+import { UpdateProjectDtoSchema } from "./dtos/update-project.dto";
 
 export function generateProjectsRouter(props: { db: PrismaClient }) {
   const router = Router();
@@ -9,6 +12,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
 
   router.post(
     "/",
+    validate(CreateProjectDtoSchema),
     asyncHandler((req, res, next) => controller.createProject(req, res, next)),
   );
   router.get(
@@ -23,6 +27,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   );
   router.put(
     "/:id",
+    validate(UpdateProjectDtoSchema),
     asyncHandler((req, res, next) => controller.updateProject(req, res, next)),
   );
   router.delete(

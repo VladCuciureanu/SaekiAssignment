@@ -91,17 +91,17 @@ export class ProjectsService {
     dto: UpdateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const entity = await this.db.project.update({
-      where: { id: props.id, ownerId: props.user.id },
-      data: props.dto,
-      include: {
-        items: { include: { material: true, servicePackage: true } },
-      },
-    });
-
-    if (!entity) {
-      throw new NotFoundException();
-    }
+    const entity = await this.db.project
+      .update({
+        where: { id: props.id, ownerId: props.user.id },
+        data: props.dto,
+        include: {
+          items: { include: { material: true, servicePackage: true } },
+        },
+      })
+      .catch(() => {
+        throw new NotFoundException();
+      });
 
     const mappedEntity = ProjectDto.fromEntity(entity);
 
@@ -112,16 +112,16 @@ export class ProjectsService {
     id: string;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const entity = await this.db.project.delete({
-      where: { id: props.id, ownerId: props.user.id },
-      include: {
-        items: { include: { material: true, servicePackage: true } },
-      },
-    });
-
-    if (!entity) {
-      throw new NotFoundException();
-    }
+    const entity = await this.db.project
+      .delete({
+        where: { id: props.id, ownerId: props.user.id },
+        include: {
+          items: { include: { material: true, servicePackage: true } },
+        },
+      })
+      .catch(() => {
+        throw new NotFoundException();
+      });
 
     const mappedEntity = ProjectDto.fromEntity(entity);
 

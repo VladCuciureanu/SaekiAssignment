@@ -26,7 +26,7 @@ export const authenticate = async (
 
     const payload: JwtPayload = jwt.verify(
       token,
-      env.JWT_SECRET_KEY!,
+      env.JWT_SECRET_KEY,
     ) as JwtPayload;
 
     res.locals.user = payload.user;
