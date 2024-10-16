@@ -4,6 +4,7 @@ import { UserDto } from "../users/dtos/user.dto";
 import { ProjectItemDto } from "./dtos/project-item.dto";
 import { UpdateProjectItemDto } from "./dtos/update-project-item.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
+import { UnauthorizedException } from "../auth/exceptions/unauthorized.exception";
 
 export class ProjectItemsService {
   db: PrismaClient;
@@ -30,6 +31,18 @@ export class ProjectItemsService {
 
     if (!defaultServicePackage) {
       throw new Error("Default service package not found");
+    }
+
+    const hasAccessToProject = await this.db.project
+      .findFirst({
+        where: { id: props.dto.projectId, ownerId: props.user.id },
+      })
+      .then((res) => res !== null);
+
+    if (!hasAccessToProject) {
+      throw new UnauthorizedException(
+        "User does not have access to parent project."
+      );
     }
 
     const entity = await this.db.projectItem.create({
