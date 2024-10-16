@@ -16,39 +16,16 @@ export class ProjectsService {
     dto: CreateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const defaultMaterial = await this.db.material.findFirst({
-      where: { default: true },
-    });
-
-    const defaultServicePackage = await this.db.servicePackage.findFirst({
-      where: { default: true },
-    });
-
-    if (!defaultMaterial) {
-      throw new Error("Default material not found");
-    }
-
-    if (!defaultServicePackage) {
-      throw new Error("Default service package not found");
-    }
-
-    const mappedItems = props.dto.items.map((it) => {
-      return {
-        assetUrl: it.assetUrl,
-        materialId: defaultMaterial.id,
-        servicePackageId: defaultServicePackage.id,
-      };
-    });
-
     const entity = await this.db.project.create({
       data: {
         ownerId: props.user.id,
-        items: { createMany: { data: mappedItems } },
       },
       include: { items: { include: { material: true, servicePackage: true } } },
     });
 
-    return new ProjectDto(entity);
+    const mappedEntity = ProjectDto.fromEntity(entity);
+
+    return mappedEntity;
   }
 
   public async getManyProjects(props: {
@@ -91,17 +68,13 @@ export class ProjectsService {
     dto: UpdateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const entity = await this.db.project
-      .update({
-        where: { id: props.id, ownerId: props.user.id },
-        data: props.dto,
-        include: {
-          items: { include: { material: true, servicePackage: true } },
-        },
-      })
-      .catch(() => {
-        throw new NotFoundException();
-      });
+    const entity = await this.db.project.update({
+      where: { id: props.id, ownerId: props.user.id },
+      data: props.dto,
+      include: {
+        items: { include: { material: true, servicePackage: true } },
+      },
+    });
 
     const mappedEntity = ProjectDto.fromEntity(entity);
 
@@ -112,19 +85,26 @@ export class ProjectsService {
     id: string;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const entity = await this.db.project
-      .delete({
-        where: { id: props.id, ownerId: props.user.id },
-        include: {
-          items: { include: { material: true, servicePackage: true } },
-        },
-      })
-      .catch(() => {
-        throw new NotFoundException();
-      });
+    await this.assertEntityExists(props);
+
+    const entity = await this.db.project.delete({
+      where: { id: props.id, ownerId: props.user.id },
+      include: {
+        items: { include: { material: true, servicePackage: true } },
+      },
+    });
 
     const mappedEntity = ProjectDto.fromEntity(entity);
 
     return mappedEntity;
+  }
+
+  private async assertEntityExists(props: { id: string; user: UserDto }) {
+    const res = await this.db.project.findFirst({
+      where: { id: props.id, ownerId: props.user.id },
+    });
+    if (!res) {
+      throw new NotFoundException();
+    }
   }
 }

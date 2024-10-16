@@ -1,5 +1,5 @@
 import { Prisma, ProjectStatus } from "@prisma/client";
-import { ProjectItemDto } from "./project-item.dto";
+import { ProjectItemDto } from "../../project-items/dtos/project-item.dto";
 
 export class ProjectDto {
   id: string;

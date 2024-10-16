@@ -1,21 +1,21 @@
 import { Router } from "express";
-import { ProjectsController } from "./projects.controller";
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
-import { CreateProjectDtoSchema } from "./dtos/create-project.dto";
+import { CreateProjectItemDtoSchema } from "./dtos/create-project-item.dto";
 import { validate } from "../common/middlewares/schema-validation.middleware";
-import { UpdateProjectDtoSchema } from "./dtos/update-project.dto";
+import { UpdateProjectItemDtoSchema } from "./dtos/update-project-item.dto";
+import { ProjectItemsController } from "./project-items.controller";
 
-export function generateProjectsRouter(props: { db: PrismaClient }) {
+export function generateProjectItemsRouter(props: { db: PrismaClient }) {
   const router = Router();
-  const controller = new ProjectsController({ db: props.db });
+  const controller = new ProjectItemsController({ db: props.db });
 
   // Create a new project
   router.post(
     "/",
-    validate(CreateProjectDtoSchema),
+    validate(CreateProjectItemDtoSchema),
     asyncHandler((req, res, next) => {
-      return controller.createProject(req, res, next);
+      return controller.createProjectItem(req, res, next);
     }),
   );
 
@@ -23,7 +23,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   router.get(
     "/",
     asyncHandler((req, res, next) => {
-      return controller.getManyProjects(req, res, next);
+      return controller.getManyProjectItems(req, res, next);
     }),
   );
 
@@ -31,16 +31,16 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   router.get(
     "/:id",
     asyncHandler((req, res, next) => {
-      return controller.getProject(req, res, next);
+      return controller.getProjectItem(req, res, next);
     }),
   );
 
   // Update a project
   router.put(
     "/:id",
-    validate(UpdateProjectDtoSchema),
+    validate(UpdateProjectItemDtoSchema),
     asyncHandler((req, res, next) => {
-      return controller.updateProject(req, res, next);
+      return controller.updateProjectItem(req, res, next);
     }),
   );
 
@@ -48,7 +48,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   router.delete(
     "/:id",
     asyncHandler((req, res, next) => {
-      return controller.deleteProject(req, res, next);
+      return controller.deleteProjectItem(req, res, next);
     }),
   );
 

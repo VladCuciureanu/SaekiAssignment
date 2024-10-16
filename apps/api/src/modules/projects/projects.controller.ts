@@ -17,9 +17,9 @@ export class ProjectsController {
     const dto = req.body;
     const user = res.locals.user as UserDto;
 
-    const result = await this.service.createProject({ dto, user });
+    const entity = await this.service.createProject({ dto, user });
 
-    res.json(result);
+    res.json(entity);
   }
 
   public async getManyProjects(
@@ -29,9 +29,9 @@ export class ProjectsController {
   ) {
     const user = res.locals.user as UserDto;
 
-    const results = await this.service.getManyProjects({ user });
+    const entities = await this.service.getManyProjects({ user });
 
-    res.json(results);
+    res.json(entities);
   }
 
   public async getProject(req: Request, res: Response, next: NextFunction) {
@@ -42,9 +42,9 @@ export class ProjectsController {
       throw new InvalidPayloadException([{ id: "Project ID is required" }]);
     }
 
-    const results = await this.service.getProject({ id, user });
+    const entity = await this.service.getProject({ id, user });
 
-    res.json(results);
+    res.json(entity);
   }
 
   public async updateProject(req: Request, res: Response, next: NextFunction) {
@@ -56,9 +56,9 @@ export class ProjectsController {
       throw new InvalidPayloadException([{ id: "Project ID is required" }]);
     }
 
-    const results = await this.service.updateProject({ id, dto, user });
+    const entity = await this.service.updateProject({ id, dto, user });
 
-    res.json(results);
+    res.json(entity);
   }
 
   public async deleteProject(req: Request, res: Response, next: NextFunction) {
@@ -69,8 +69,8 @@ export class ProjectsController {
       throw new InvalidPayloadException([{ id: "Project ID is required" }]);
     }
 
-    const results = await this.service.deleteProject({ id, user });
+    const entity = await this.service.deleteProject({ id, user });
 
-    res.json(results);
+    res.json(entity);
   }
 }
