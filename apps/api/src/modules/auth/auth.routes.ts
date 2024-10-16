@@ -9,10 +9,11 @@ export function generateAuthRouter(props: { db: PrismaClient }) {
   const router = Router();
   const controller = new AuthController({ db: props.db });
 
+  // Get bearer token
   router.get(
     "/token",
     validate(LoginDtoSchema),
-    asyncHandler((req, res, next) => controller.getToken(req, res, next)),
+    asyncHandler((req, res, next) => controller.getToken(req, res, next))
   );
 
   return router;
