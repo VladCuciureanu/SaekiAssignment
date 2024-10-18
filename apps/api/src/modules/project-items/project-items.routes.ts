@@ -10,7 +10,7 @@ export function generateProjectItemsRouter(props: { db: PrismaClient }) {
   const router = Router();
   const controller = new ProjectItemsController({ db: props.db });
 
-  // Create a new project
+  // Create a new project item
   router.post(
     "/",
     validate(CreateProjectItemDtoSchema),
@@ -19,7 +19,7 @@ export function generateProjectItemsRouter(props: { db: PrismaClient }) {
     }),
   );
 
-  // Get all projects
+  // Get all project items
   router.get(
     "/",
     asyncHandler((req, res, next) => {
@@ -27,7 +27,7 @@ export function generateProjectItemsRouter(props: { db: PrismaClient }) {
     }),
   );
 
-  // Get a project by id
+  // Get a project item by id
   router.get(
     "/:id",
     asyncHandler((req, res, next) => {
@@ -35,7 +35,7 @@ export function generateProjectItemsRouter(props: { db: PrismaClient }) {
     }),
   );
 
-  // Update a project
+  // Update a project item
   router.put(
     "/:id",
     validate(UpdateProjectItemDtoSchema),
@@ -44,7 +44,7 @@ export function generateProjectItemsRouter(props: { db: PrismaClient }) {
     }),
   );
 
-  // Delete a project
+  // Delete a project item
   router.delete(
     "/:id",
     asyncHandler((req, res, next) => {

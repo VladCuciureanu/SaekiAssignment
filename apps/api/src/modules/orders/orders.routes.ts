@@ -44,5 +44,13 @@ export function generateOrdersRouter(props: { db: PrismaClient }) {
     }),
   );
 
+  // Delete an order
+  router.delete(
+    "/:id",
+    asyncHandler((req, res, next) => {
+      return controller.deleteOrder(req, res, next);
+    }),
+  );
+
   return router;
 }

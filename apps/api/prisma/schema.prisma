@@ -15,6 +15,7 @@ enum ProjectStatus {
   Created
   AutoQuoted
   ManuallyQuoted
+  ReadOnly
 }
 
 enum OrderStatus {

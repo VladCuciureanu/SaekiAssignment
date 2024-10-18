@@ -1,10 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, ProjectStatus } from "@prisma/client";
 import { CreateProjectItemDto } from "./dtos/create-project-item.dto";
 import { UserDto } from "../users/dtos/user.dto";
 import { ProjectItemDto } from "./dtos/project-item.dto";
 import { UpdateProjectItemDto } from "./dtos/update-project-item.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
 import { UnauthorizedException } from "../auth/exceptions/unauthorized.exception";
+import { ForbiddenException } from "../common/exceptions/forbidden.exception";
 
 export class ProjectItemsService {
   db: PrismaClient;
@@ -33,16 +34,20 @@ export class ProjectItemsService {
       throw new Error("Default service package not found");
     }
 
-    const hasAccessToProject = await this.db.project
-      .findFirst({
-        where: { id: props.dto.projectId, clientId: props.user.id },
-      })
-      .then((res) => res !== null);
+    const project = await this.db.project.findFirst({
+      where: { id: props.dto.projectId, clientId: props.user.id },
+    });
+
+    const hasAccessToProject = !!project;
 
     if (!hasAccessToProject) {
       throw new UnauthorizedException(
         "User does not have access to parent project.",
       );
+    }
+
+    if (project.status === ProjectStatus.ReadOnly) {
+      throw new ForbiddenException();
     }
 
     const entity = await this.db.projectItem.create({
@@ -99,7 +104,11 @@ export class ProjectItemsService {
     dto: UpdateProjectItemDto;
     user: UserDto;
   }): Promise<ProjectItemDto> {
-    await this.assertEntityExists(props);
+    const originalEntity = await this.assertEntityExists(props);
+
+    if (originalEntity.project.status === ProjectStatus.ReadOnly) {
+      throw new ForbiddenException();
+    }
 
     const entity = await this.db.projectItem.update({
       where: { id: props.id, project: { clientId: props.user.id } },
@@ -119,7 +128,11 @@ export class ProjectItemsService {
     id: string;
     user: UserDto;
   }): Promise<ProjectItemDto> {
-    await this.assertEntityExists(props);
+    const originalEntity = await this.assertEntityExists(props);
+
+    if (originalEntity.project.status === ProjectStatus.ReadOnly) {
+      throw new ForbiddenException();
+    }
 
     const entity = await this.db.projectItem.delete({
       where: { id: props.id, project: { clientId: props.user.id } },
@@ -134,16 +147,19 @@ export class ProjectItemsService {
     return mappedEntity;
   }
 
-  private async assertEntityExists(props: { id: string; user: UserDto }) {
-    const entityExists = await this.db.projectItem
-      .findFirst({
-        where: { id: props.id, project: { clientId: props.user.id } },
-        include: { project: true },
-      })
-      .then((res) => res !== null);
+  private async assertEntityExists(props: {
+    id: string;
+    user: UserDto;
+  }): Promise<Prisma.ProjectItemGetPayload<{ include: { project: true } }>> {
+    const entity = await this.db.projectItem.findFirst({
+      where: { id: props.id, project: { clientId: props.user.id } },
+      include: { project: true },
+    });
 
-    if (!entityExists) {
+    if (!entity) {
       throw new NotFoundException();
     }
+
+    return entity;
   }
 }

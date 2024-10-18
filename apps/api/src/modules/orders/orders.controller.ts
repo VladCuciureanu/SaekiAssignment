@@ -56,4 +56,17 @@ export class OrdersController {
 
     res.json(entity);
   }
+
+  public async deleteOrder(req: Request, res: Response, next: NextFunction) {
+    const user = res.locals.user as UserDto;
+    const id = req.params.id;
+
+    if (!id) {
+      throw new InvalidPayloadException([{ id: "Order ID is required" }]);
+    }
+
+    const entity = await this.service.deleteOrder({ id, user });
+
+    res.json(entity);
+  }
 }

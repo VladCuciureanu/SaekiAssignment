@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 
 type UserAuthFormProps = {
   error: string | undefined;
+  // eslint-disable-next-line no-unused-vars
   onSubmit?: (email: string, password: string) => Promise<void>;
 };
 
