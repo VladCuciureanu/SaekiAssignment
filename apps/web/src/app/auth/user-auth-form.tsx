@@ -38,11 +38,11 @@ export function UserAuthForm(props: UserAuthFormProps) {
       <form onSubmit={onSubmit}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <div className="w-full flex flex-col gap-2">
-              <p className="text-sm text-red-500 text-center inset-x-0">
+            <div className="flex w-full flex-col gap-2">
+              <p className="inset-x-0 text-center text-sm text-red-500">
                 {props.error}
               </p>
-              <Label className=" opacity-50" htmlFor="email">
+              <Label className="opacity-50" htmlFor="email">
                 Email
               </Label>
               <Input
@@ -57,8 +57,8 @@ export function UserAuthForm(props: UserAuthFormProps) {
                 onChange={(event) => setEmail(event.target.value)}
               />
             </div>
-            <div className="w-full flex flex-col gap-2">
-              <Label className=" opacity-50" htmlFor="password">
+            <div className="flex w-full flex-col gap-2">
+              <Label className="opacity-50" htmlFor="password">
                 Password
               </Label>
               <Input
@@ -87,7 +87,7 @@ export function UserAuthForm(props: UserAuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="bg-background text-muted-foreground px-2">
             Or continue with
           </span>
         </div>

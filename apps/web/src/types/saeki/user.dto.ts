@@ -1,0 +1,9 @@
+export class UserDto {
+  id: string;
+  email: string;
+
+  constructor(props: { id: string; email: string }) {
+    this.id = props.id;
+    this.email = props.email;
+  }
+}

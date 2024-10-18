@@ -9,7 +9,8 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
     "prisma:generate": "prisma generate",
-    "prisma:db:push": "export $(grep -v '^#' .env | xargs -d '\n') && prisma db push"
+    "prisma:db:push": "export $(grep -v '^#' .env | xargs -d '\n') && prisma db push",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@prisma/client": "^5.21.0",
@@ -36,6 +37,7 @@
     "esbuild-register": "^3.5.0",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
+    "prettier": "^3.3.3",
     "prisma": "^5.21.0",
     "typescript": "^5.3.3"
   }

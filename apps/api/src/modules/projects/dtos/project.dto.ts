@@ -4,13 +4,13 @@ import { ProjectItemDto } from "../../project-items/dtos/project-item.dto";
 export class ProjectDto {
   id: string;
   status: ProjectStatus;
-  items: any;
+  items: ProjectItemDto[];
   createdAt: Date;
 
   constructor(props: {
     id: string;
     status: ProjectStatus;
-    items: any;
+    items: ProjectItemDto[];
     createdAt: Date;
   }) {
     this.id = props.id;
