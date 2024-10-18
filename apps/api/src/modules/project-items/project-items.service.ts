@@ -35,7 +35,7 @@ export class ProjectItemsService {
 
     const hasAccessToProject = await this.db.project
       .findFirst({
-        where: { id: props.dto.projectId, ownerId: props.user.id },
+        where: { id: props.dto.projectId, clientId: props.user.id },
       })
       .then((res) => res !== null);
 
@@ -64,8 +64,9 @@ export class ProjectItemsService {
     user: UserDto;
   }): Promise<ProjectItemDto[]> {
     const entities = await this.db.projectItem.findMany({
-      where: { project: { ownerId: props.user.id } },
+      where: { project: { clientId: props.user.id } },
       include: { material: true, servicePackage: true },
+      orderBy: { createdAt: "desc" },
     });
 
     const mappedEntities = entities.map((it) => {
@@ -80,7 +81,7 @@ export class ProjectItemsService {
     user: UserDto;
   }): Promise<ProjectItemDto> {
     const entity = await this.db.projectItem.findFirst({
-      where: { id: props.id, project: { ownerId: props.user.id } },
+      where: { id: props.id, project: { clientId: props.user.id } },
       include: { material: true, servicePackage: true },
     });
 
@@ -101,7 +102,7 @@ export class ProjectItemsService {
     await this.assertEntityExists(props);
 
     const entity = await this.db.projectItem.update({
-      where: { id: props.id, project: { ownerId: props.user.id } },
+      where: { id: props.id, project: { clientId: props.user.id } },
       data: props.dto,
       include: {
         material: true,
@@ -121,7 +122,7 @@ export class ProjectItemsService {
     await this.assertEntityExists(props);
 
     const entity = await this.db.projectItem.delete({
-      where: { id: props.id, project: { ownerId: props.user.id } },
+      where: { id: props.id, project: { clientId: props.user.id } },
       include: {
         material: true,
         servicePackage: true,
@@ -136,7 +137,7 @@ export class ProjectItemsService {
   private async assertEntityExists(props: { id: string; user: UserDto }) {
     const entityExists = await this.db.projectItem
       .findFirst({
-        where: { id: props.id, project: { ownerId: props.user.id } },
+        where: { id: props.id, project: { clientId: props.user.id } },
         include: { project: true },
       })
       .then((res) => res !== null);

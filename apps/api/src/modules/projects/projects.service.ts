@@ -18,7 +18,7 @@ export class ProjectsService {
   }): Promise<ProjectDto> {
     const entity = await this.db.project.create({
       data: {
-        ownerId: props.user.id,
+        clientId: props.user.id,
       },
       include: { items: { include: { material: true, servicePackage: true } } },
     });
@@ -32,8 +32,9 @@ export class ProjectsService {
     user: UserDto;
   }): Promise<ProjectDto[]> {
     const entities = await this.db.project.findMany({
-      where: { ownerId: props.user.id },
+      where: { clientId: props.user.id },
       include: { items: { include: { material: true, servicePackage: true } } },
+      orderBy: { createdAt: "desc" },
     });
 
     const mappedEntities = entities.map((it) => {
@@ -48,7 +49,7 @@ export class ProjectsService {
     user: UserDto;
   }): Promise<ProjectDto> {
     const entity = await this.db.project.findFirst({
-      where: { id: props.id, ownerId: props.user.id },
+      where: { id: props.id, clientId: props.user.id },
       include: {
         items: { include: { material: true, servicePackage: true } },
       },
@@ -71,7 +72,7 @@ export class ProjectsService {
     await this.assertEntityExists(props);
 
     const entity = await this.db.project.update({
-      where: { id: props.id, ownerId: props.user.id },
+      where: { id: props.id, clientId: props.user.id },
       data: props.dto,
       include: {
         items: { include: { material: true, servicePackage: true } },
@@ -90,7 +91,7 @@ export class ProjectsService {
     await this.assertEntityExists(props);
 
     const entity = await this.db.project.delete({
-      where: { id: props.id, ownerId: props.user.id },
+      where: { id: props.id, clientId: props.user.id },
       include: {
         items: { include: { material: true, servicePackage: true } },
       },
@@ -103,7 +104,7 @@ export class ProjectsService {
 
   private async assertEntityExists(props: { id: string; user: UserDto }) {
     const res = await this.db.project.findFirst({
-      where: { id: props.id, ownerId: props.user.id },
+      where: { id: props.id, clientId: props.user.id },
     });
     if (!res) {
       throw new NotFoundException();

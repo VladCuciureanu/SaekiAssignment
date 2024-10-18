@@ -14,23 +14,7 @@ export const metadata: Metadata = {
 export default function RegisterPage() {
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/authentication-light.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/authentication-dark.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="container relative hidden h-full min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative grid h-full min-h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/auth/login"
           className={cn(
@@ -40,8 +24,8 @@ export default function RegisterPage() {
         >
           Login
         </Link>
-        <div className="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
-          <div className="absolute inset-0 bg-zinc-900" />
+        <div className="bg-muted relative hidden h-full flex-col p-10 text-black lg:flex dark:border-r dark:text-white">
+          <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-900" />
           <div className="relative z-20 flex items-center text-lg font-medium">
             <div className="flex flex-row items-center justify-start">
               <Logo />
@@ -58,7 +42,7 @@ export default function RegisterPage() {
             </blockquote>
           </div>
         </div>
-        <div className="lg:p-8">
+        <div className="px-2 lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">

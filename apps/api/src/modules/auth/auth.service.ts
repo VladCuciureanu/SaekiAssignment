@@ -15,7 +15,9 @@ export class AuthService {
     this.db = props.db;
   }
 
-  public async login(props: { dto: LoginDto }): Promise<string> {
+  public async login(props: {
+    dto: LoginDto;
+  }): Promise<{ user: UserDto; token: string }> {
     const user = await this.db.user.findUnique({
       where: { email: props.dto.email },
     });
@@ -23,18 +25,23 @@ export class AuthService {
     if (user && (await argon2.verify(user.passwordHash, props.dto.password))) {
       const mappedUser = UserDto.fromEntity(user);
 
-      return jwt.sign(
-        {
-          user: mappedUser,
-        },
-        env.JWT_SECRET_KEY,
-      );
+      return {
+        user: UserDto.fromEntity(user),
+        token: jwt.sign(
+          {
+            user: mappedUser,
+          },
+          env.JWT_SECRET_KEY,
+        ),
+      };
     }
 
     throw new InvalidCredentialsException();
   }
 
-  public async register(props: { dto: RegisterDto }): Promise<string> {
+  public async register(props: {
+    dto: RegisterDto;
+  }): Promise<{ user: UserDto; token: string }> {
     const userExists = await this.db.user
       .findUnique({
         where: { email: props.dto.email },
@@ -54,11 +61,14 @@ export class AuthService {
 
     const mappedUser = UserDto.fromEntity(user);
 
-    return jwt.sign(
-      {
-        user: mappedUser,
-      },
-      env.JWT_SECRET_KEY,
-    );
+    return {
+      user: UserDto.fromEntity(user),
+      token: jwt.sign(
+        {
+          user: mappedUser,
+        },
+        env.JWT_SECRET_KEY,
+      ),
+    };
   }
 }

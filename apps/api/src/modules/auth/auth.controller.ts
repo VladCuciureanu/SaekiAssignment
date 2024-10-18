@@ -16,7 +16,10 @@ export class AuthController {
   public async login(req: Request, res: Response, next: NextFunction) {
     const dto = req.body as LoginDto;
 
-    const token = await this.service.login({ dto });
+    const { token, user } = await this.service.login({ dto });
+
+    res.cookie("token", token);
+    res.cookie("current_user", JSON.stringify(user));
 
     res.json({ token });
   }
@@ -24,7 +27,10 @@ export class AuthController {
   public async register(req: Request, res: Response, next: NextFunction) {
     const dto = req.body as RegisterDto;
 
-    const token = await this.service.register({ dto });
+    const { token, user } = await this.service.register({ dto });
+
+    res.cookie("token", token);
+    res.cookie("current_user", JSON.stringify(user));
 
     res.json({ token });
   }

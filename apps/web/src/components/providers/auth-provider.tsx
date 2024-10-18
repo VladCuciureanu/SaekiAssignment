@@ -18,13 +18,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserDto | null>(null);
 
   function logOut() {
-    localStorage.removeItem("token");
-    router.push("/auth/login");
+    router.push("/auth/logout");
   }
 
   useEffect(() => {
     try {
-      const token = localStorage.getItem("token");
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`token=`))
+        ?.split("=")[1];
+      console.log(document.cookie);
       if (!token) {
         router.push("/auth/login");
         return;

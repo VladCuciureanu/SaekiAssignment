@@ -9,6 +9,8 @@ import { generateAuthRouter } from "./modules/auth/auth.routes";
 import { generateProjectsRouter } from "./modules/projects/projects.routes";
 import { authenticate } from "./modules/auth/middlewares/authentication.middleware";
 import { generateProjectItemsRouter } from "./modules/project-items/project-items.routes";
+import { generateOrdersRouter } from "./modules/orders/orders.routes";
+import { env } from "./modules/env";
 
 function generateRouter() {
   const router = express.Router();
@@ -21,6 +23,7 @@ function generateRouter() {
     authenticate,
     generateProjectItemsRouter({ db }),
   );
+  router.use("/orders", authenticate, generateOrdersRouter({ db }));
 
   router.get("/health", (_, res) => {
     return res.status(200).send();
@@ -36,7 +39,7 @@ export function createServer(): Express {
     .use(morgan("dev"))
     .use(urlencoded({ extended: true }))
     .use(json())
-    .use(cors())
+    .use(cors({ origin: env.FRONTEND_URL, credentials: true }))
     .use("/api", generateRouter())
     .use(routeNotFound)
     .use(exceptionsHandler);

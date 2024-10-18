@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { UserAuthForm } from "../user-auth-form";
 import { useState } from "react";
+import { cookies } from "next/headers";
 
 export function LoginForm() {
   const router = useRouter();
@@ -20,13 +21,11 @@ export function LoginForm() {
           email,
           password,
         }),
+        credentials: "include",
       },
     );
-    let data;
     switch (result.status) {
       case 200:
-        data = await result.json();
-        localStorage.setItem("token", data.token);
         router.push("/");
         setError(undefined);
         break;

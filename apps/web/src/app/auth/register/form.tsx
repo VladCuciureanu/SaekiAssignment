@@ -20,13 +20,11 @@ export function RegisterForm() {
           email,
           password,
         }),
+        credentials: "include",
       },
     );
-    let data;
     switch (result.status) {
       case 200:
-        data = await result.json();
-        localStorage.setItem("token", data.token);
         router.push("/");
         setError(undefined);
         break;
