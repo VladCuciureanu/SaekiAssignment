@@ -24,7 +24,7 @@ interface NavProps {
   }[];
 }
 
-export function NavGroup({ links, isCollapsed }: NavProps) {
+export function NavLinkGroup({ links, isCollapsed }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}

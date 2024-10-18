@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-export function UserNav(props: { isCollapsed?: boolean }) {
+export function UserDropdown(props: { isCollapsed?: boolean }) {
   const { user, logOut } = useAuth();
 
   return (

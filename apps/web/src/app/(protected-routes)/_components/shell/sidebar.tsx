@@ -1,7 +1,7 @@
 "use client";
 import { Logo } from "@/components/vector/logo";
 import { LogoIcon } from "@/components/vector/logo-icon";
-import { NavGroup } from "@/app/(protected-routes)/_components/shell/nav-group";
+import { NavLinkGroup } from "@/app/(protected-routes)/_components/shell/nav-link-group";
 import { ResizablePanel } from "@/components/ui/resizable";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import {
   Settings,
   Container,
 } from "lucide-react";
-import { UserNav } from "./user-nav";
+import { UserDropdown } from "./user-dropdown";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
@@ -47,6 +47,7 @@ export function Sidebar({
         )}`;
       }}
       className={cn(
+        "sticky top-0 max-h-screen",
         isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out",
       )}
     >
@@ -67,7 +68,7 @@ export function Sidebar({
             )}
           </Link>
           <Separator />
-          <NavGroup
+          <NavLinkGroup
             isCollapsed={isCollapsed}
             links={[
               {
@@ -96,7 +97,7 @@ export function Sidebar({
         </div>
         <div className="flex w-full flex-col">
           <Separator />
-          <NavGroup
+          <NavLinkGroup
             isCollapsed={isCollapsed}
             links={[
               {
@@ -116,7 +117,7 @@ export function Sidebar({
           />
           <Separator />
           <div className="flex h-16 flex-row items-center justify-center px-2">
-            <UserNav isCollapsed={isCollapsed} />
+            <UserDropdown isCollapsed={isCollapsed} />
           </div>
         </div>
       </div>
