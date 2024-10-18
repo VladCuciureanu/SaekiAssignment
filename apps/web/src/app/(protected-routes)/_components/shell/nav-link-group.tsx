@@ -36,7 +36,7 @@ export function NavLinkGroup({ links, isCollapsed }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href={link.href}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",
@@ -60,7 +60,7 @@ export function NavLinkGroup({ links, isCollapsed }: NavProps) {
           ) : (
             <Link
               key={index}
-              href="#"
+              href={link.href}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
