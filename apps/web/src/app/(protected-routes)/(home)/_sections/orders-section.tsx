@@ -1,20 +1,20 @@
 "use client";
-import { getManyProjects } from "@/lib/projects";
-import { ProjectDto } from "@/types/saeki/project.dto";
+import { getManyOrders } from "@/lib/orders";
+import { OrderDto } from "@/types/saeki/order.dto";
 import { useEffect, useState } from "react";
 
 export function OrdersSection() {
-  const [orders, setProjects] = useState<ProjectDto[]>([]);
+  const [orders, setOrders] = useState<OrderDto[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getManyProjects().then((projects) => {
-      setProjects(projects);
+    getManyOrders().then((orders) => {
+      setOrders(orders);
       setLoading(false);
     });
   }, []);
   return (
-    <section id="projects-section" className="flex w-full flex-col gap-4">
+    <section id="orders-section" className="flex w-full flex-col gap-4">
       <h2 className="text-xl font-bold tracking-tight">Orders</h2>
       {loading && <MessageCard message="Loading orders..." />}
       {!loading && orders.length === 0 && (
@@ -37,7 +37,7 @@ function MessageCard({ message }: { message: string }) {
   );
 }
 
-function OrderCard({ data }: { data: ProjectDto }) {
+function OrderCard({ data }: { data: OrderDto }) {
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg border p-4 shadow-md">
       <h3 className="font-medium">{data.id}</h3>
