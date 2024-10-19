@@ -27,7 +27,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .split("; ")
         .find((row) => row.startsWith(`token=`))
         ?.split("=")[1];
-      console.log(document.cookie);
       if (!token) {
         router.push("/auth/login");
         return;

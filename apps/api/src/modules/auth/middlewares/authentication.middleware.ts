@@ -15,7 +15,10 @@ export const authenticate = async (
   next: NextFunction,
 ) => {
   try {
-    const token = req.headers.authorization?.split(" ").at(1);
+    const cookiesToken = req.cookies.token;
+    const headersToken = req.headers.authorization?.split(" ").at(1);
+
+    const token = cookiesToken || headersToken;
 
     if (!token) {
       throw new UnauthorizedException();

@@ -11,6 +11,7 @@ import { authenticate } from "./modules/auth/middlewares/authentication.middlewa
 import { generateProjectItemsRouter } from "./modules/project-items/project-items.routes";
 import { generateOrdersRouter } from "./modules/orders/orders.routes";
 import { env } from "./modules/env";
+import cookieParser from "cookie-parser";
 
 function generateRouter() {
   const router = express.Router();
@@ -39,6 +40,7 @@ export function createServer(): Express {
     .use(morgan("dev"))
     .use(urlencoded({ extended: true }))
     .use(json())
+    .use(cookieParser())
     .use(cors({ origin: env.FRONTEND_URL, credentials: true }))
     .use("/api", generateRouter())
     .use(routeNotFound)
