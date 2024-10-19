@@ -37,7 +37,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className="bg-background fixed inset-y-0 left-0 h-full border-r transition-all ease-in-out"
+      className="bg-background fixed inset-y-0 left-0 hidden h-full border-r transition-all ease-in-out md:block"
       style={{ width: sidebarWidth }}
     >
       <div className="relative flex h-full w-full flex-col items-center justify-between">

@@ -13,9 +13,9 @@ export function Shell({ children }: ShellProps) {
 
   return (
     <div
-      style={{ marginLeft: sidebarWidth }}
+      style={{ "--sidebar-width": `${sidebarWidth}px` } as React.CSSProperties}
       className={cn(
-        "transition-all ease-in-out",
+        "transition-all ease-in-out md:pl-[var(--sidebar-width)]",
         grabbing && "cursor-grabbing",
       )}
     >
