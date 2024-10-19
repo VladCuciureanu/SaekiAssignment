@@ -12,8 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useShell } from "./context";
 
-export function UserDropdown(props: { isCollapsed?: boolean }) {
+export function UserDropdown() {
+  const { sidebarCollapsed } = useShell();
   const { user, logOut } = useAuth();
 
   return (
@@ -21,21 +23,21 @@ export function UserDropdown(props: { isCollapsed?: boolean }) {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative ml-1 mr-2 h-fit w-full select-none py-1.5"
+          className="relative m-0 h-fit w-full select-none px-2 py-1.5"
         >
           <div
             className={cn(
               "flex h-8 w-full min-w-full flex-row items-center gap-2",
-              props.isCollapsed ? "justify-center" : "justify-start",
+              sidebarCollapsed ? "justify-center" : "justify-start",
             )}
           >
-            <Avatar className={"h-8 w-8"}>
+            <Avatar className={cn("h-8 w-8", !sidebarCollapsed && "-ml-1")}>
               <AvatarImage src="/avatars/03.png" alt="@shadcn" />
               <AvatarFallback className="bg-foreground text-background dark:bg-primary dark:text-background">
                 {user?.email.at(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            {!props.isCollapsed && (
+            {!sidebarCollapsed && (
               <div className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
                 {user?.email}
               </div>
