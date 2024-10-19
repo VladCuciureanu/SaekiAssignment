@@ -8,6 +8,10 @@ services:
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:UnsafePassword123!@db:5432/saeki
+      FRONTEND_URL: http://nginx.saekiassignment.orb.local
+      JWT_SECRET_KEY: UnsafeJWT
     restart: always
     ports:
       - 3001:3001
@@ -20,6 +24,8 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: http://nginx.saekiassignment.orb.local
     restart: always
     ports:
       - 3000:3000

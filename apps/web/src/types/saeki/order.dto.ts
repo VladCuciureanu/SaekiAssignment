@@ -1,5 +1,15 @@
-import { OrderStatus, Order, Prisma } from "@prisma/client";
-import { ProjectDto } from "../../projects/dtos/project.dto";
+import { ProjectDto } from "./project.dto";
+
+export enum OrderStatus {
+  PaymentDue = "PaymentDue",
+  Processing = "Processing",
+  Cancelled = "Cancelled",
+  Problem = "Problem",
+  InTransit = "InTransit",
+  PickupAvailable = "PickupAvailable",
+  Delivered = "Delivered",
+  Returned = "Returned",
+}
 
 export class OrderDto {
   id: string;
@@ -20,25 +30,5 @@ export class OrderDto {
     this.project = props.project;
     this.clientId = props.clientId;
     this.createdAt = props.createdAt;
-  }
-
-  static fromEntity(
-    entity: Prisma.OrderGetPayload<{
-      include: {
-        project: {
-          include: {
-            items: { include: { material: true; servicePackage: true } };
-          };
-        };
-      };
-    }>,
-  ): OrderDto {
-    return new OrderDto({
-      id: entity.id,
-      status: entity.status,
-      project: ProjectDto.fromEntity(entity.project),
-      clientId: entity.clientId,
-      createdAt: entity.createdAt,
-    });
   }
 }

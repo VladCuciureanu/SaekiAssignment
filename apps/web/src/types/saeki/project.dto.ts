@@ -4,11 +4,7 @@ export enum ProjectStatus {
   Created = "Created",
   AutoQuoted = "AutoQuoted",
   ManuallyQuoted = "ManuallyQuoted",
-  Ordered = "Ordered",
-  InProduction = "InProduction",
-  ReadyForShipping = "ReadyForShipping",
-  Shipped = "Shipped",
-  Delivered = "Delivered",
+  ReadOnly = "ReadOnly",
 }
 
 export class ProjectDto {

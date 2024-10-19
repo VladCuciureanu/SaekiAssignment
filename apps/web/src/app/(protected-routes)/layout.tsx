@@ -10,8 +10,8 @@ export default function ProtectedRouteLayout({
   const layout = cookies().get("react-resizable-panels:layout:mail");
   const collapsed = cookies().get("react-resizable-panels:collapsed");
 
-  const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
-  const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
+  const defaultLayout = layout ? JSON.parse(layout.value) : [4, 8];
+  const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : false;
   return (
     <AuthProvider>
       <Shell defaultCollapsed={defaultCollapsed} defaultLayout={defaultLayout}>
