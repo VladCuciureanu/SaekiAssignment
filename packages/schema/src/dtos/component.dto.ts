@@ -1,16 +1,18 @@
-import { MaterialDto } from "./material.dto";
-import { ServicePackageDto } from "./service-package.dto";
 import { ComponentStatus } from "../enums/component-status.enum";
 
 export class ComponentDto {
   id: string;
   status: ComponentStatus;
-  readOnly: boolean;
   assetUrl: string;
   quantity: number;
   unitPrice?: number;
-  material: MaterialDto;
-  servicePackage: ServicePackageDto;
+  readOnly: boolean;
+
+  materialId: string;
+  orderId?: string;
+  projectId?: string;
+  servicePackageId: string;
+  createdAt: Date;
 
   constructor(props: {
     id: string;
@@ -19,8 +21,9 @@ export class ComponentDto {
     assetUrl: string;
     quantity: number;
     unitPrice?: number;
-    material: MaterialDto;
-    servicePackage: ServicePackageDto;
+    materialId: string;
+    servicePackageId: string;
+    createdAt: Date;
   }) {
     this.id = props.id;
     this.status = props.status;
@@ -28,8 +31,9 @@ export class ComponentDto {
     this.assetUrl = props.assetUrl;
     this.quantity = props.quantity;
     this.unitPrice = props.unitPrice;
-    this.material = props.material;
-    this.servicePackage = props.servicePackage;
+    this.materialId = props.materialId;
+    this.servicePackageId = props.servicePackageId;
+    this.createdAt = props.createdAt;
   }
 
   static fromJson(json: any): ComponentDto {
@@ -40,8 +44,9 @@ export class ComponentDto {
       assetUrl: json.assetUrl,
       quantity: json.quantity,
       unitPrice: json.unitPrice,
-      material: MaterialDto.fromJson(json.material),
-      servicePackage: ServicePackageDto.fromJson(json.servicePackage),
+      materialId: json.materialId,
+      servicePackageId: json.servicePackageId,
+      createdAt: json.createdAt,
     });
   }
 }

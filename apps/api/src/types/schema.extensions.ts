@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { Material, Prisma, ServicePackage, User } from "@prisma/client";
+import {
+  Component,
+  Material,
+  Order,
+  Project,
+  ServicePackage,
+  SupportTicket,
+  User,
+} from "@prisma/client";
 import { ComponentDto } from "@saeki/schema";
 import { ComponentStatus } from "@saeki/schema";
 import { MaterialDto } from "@saeki/schema";
@@ -8,20 +16,20 @@ import { OrderStatus } from "@saeki/schema";
 import { ProjectDto } from "@saeki/schema";
 import { ServicePackageDto } from "@saeki/schema";
 import { UserDto } from "@saeki/schema";
+import { SupportTicketDto } from "@saeki/schema";
+import { SupportTicketStatus } from "@saeki/schema";
 
-function componentDtofromEntity(
-  entity: Prisma.ComponentGetPayload<{
-    include: { material: true; servicePackage: true };
-  }>,
-): ComponentDto {
+function componentDtofromEntity(entity: Component): ComponentDto {
   return new ComponentDto({
     id: entity.id,
-    assetUrl: entity.assetUrl,
-    readOnly: entity.readOnly,
-    quantity: entity.quantity,
     status: entity.status as ComponentStatus,
-    material: MaterialDto.fromEntity(entity.material),
-    servicePackage: ServicePackageDto.fromEntity(entity.servicePackage),
+    readOnly: entity.readOnly,
+    assetUrl: entity.assetUrl,
+    quantity: entity.quantity,
+    unitPrice: entity.unitPrice ?? undefined,
+    materialId: entity.materialId,
+    servicePackageId: entity.servicePackageId,
+    createdAt: entity.createdAt,
   });
 }
 ComponentDto.fromEntity = componentDtofromEntity;
@@ -32,35 +40,25 @@ function materialDtoFromEntity(entity: Material): MaterialDto {
     name: entity.name,
     price: entity.price,
     archived: entity.archived,
+    default: entity.default,
   });
 }
 MaterialDto.fromEntity = materialDtoFromEntity;
 
-function orderDtoFromEntity(
-  entity: Prisma.OrderGetPayload<{
-    include: { project: true };
-  }>,
-): OrderDto {
+function orderDtoFromEntity(entity: Order): OrderDto {
   return new OrderDto({
     id: entity.id,
     status: entity.status as OrderStatus,
     clientId: entity.clientId,
     createdAt: entity.createdAt,
-    project: ProjectDto.fromEntity({ ...entity.project, components: [] }),
   });
 }
 OrderDto.fromEntity = orderDtoFromEntity;
 
-function projectDtoFromEntity(
-  entity: Prisma.ProjectGetPayload<{
-    include: {
-      components: { include: { material: true; servicePackage: true } };
-    };
-  }>,
-): ProjectDto {
+function projectDtoFromEntity(entity: Project): ProjectDto {
   return new ProjectDto({
     id: entity.id,
-    components: entity.components.map(ComponentDto.fromEntity),
+    clientId: entity.clientId,
     createdAt: entity.createdAt,
   });
 }
@@ -74,14 +72,26 @@ function servicePackageDtoFromEntity(
     name: entity.name,
     price: entity.price,
     archived: entity.archived,
+    default: entity.default,
   });
 }
 ServicePackageDto.fromEntity = servicePackageDtoFromEntity;
+
+function supportTicketDtoFromEntity(entity: SupportTicket): SupportTicketDto {
+  return new SupportTicketDto({
+    id: entity.id,
+    status: entity.status as SupportTicketStatus,
+    orderId: entity.orderId,
+    createdAt: entity.createdAt,
+  });
+}
+SupportTicketDto.fromEntity = supportTicketDtoFromEntity;
 
 function userDtoFromEntity(entity: User): UserDto {
   return new UserDto({
     id: entity.id,
     email: entity.email,
+    isAdmin: entity.isAdmin,
   });
 }
 UserDto.fromEntity = userDtoFromEntity;
@@ -111,6 +121,11 @@ declare module "@saeki/schema" {
     export function fromEntity(
       entity: Parameters<typeof servicePackageDtoFromEntity>[0],
     ): ServicePackageDto;
+  }
+  namespace SupportTicketDto {
+    export function fromEntity(
+      entity: Parameters<typeof supportTicketDtoFromEntity>[0],
+    ): SupportTicketDto;
   }
   namespace UserDto {
     export function fromEntity(

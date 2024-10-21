@@ -4,7 +4,6 @@ import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
 import { validate } from "../common/middlewares/schema-validation.middleware";
 import { CreateOrderRequestSchema } from "@saeki/schema";
-import { UpdateOrderRequestSchema } from "@saeki/schema";
 
 export function generateOrdersRouter(props: { db: PrismaClient }) {
   const router = Router();
@@ -35,14 +34,14 @@ export function generateOrdersRouter(props: { db: PrismaClient }) {
     }),
   );
 
-  // Update an order
-  router.put(
-    "/:id",
-    validate(UpdateOrderRequestSchema),
-    asyncHandler((req, res, next) => {
-      return controller.updateOrder(req, res, next);
-    }),
-  );
+  // Update an order TODO: Is this relevant?
+  // router.put(
+  //   "/:id",
+  //   validate(UpdateOrderRequestSchema),
+  //   asyncHandler((req, res, next) => {
+  //     return controller.updateOrder(req, res, next);
+  //   }),
+  // );
 
   // Delete an order
   router.delete(

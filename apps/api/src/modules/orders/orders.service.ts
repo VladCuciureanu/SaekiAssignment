@@ -19,6 +19,7 @@ export class OrdersService {
   }): Promise<OrderDto> {
     const project = await this.db.project.findFirst({
       where: { id: props.dto.projectId, clientId: props.user.id },
+      include: { components: true },
     });
 
     if (!project) {
@@ -27,13 +28,19 @@ export class OrdersService {
 
     const entity = await this.db.order.create({
       data: {
-        projectId: props.dto.projectId,
         clientId: props.user.id,
-      },
-      include: {
-        project: {
-          include: {
-            components: { include: { material: true, servicePackage: true } },
+        components: {
+          createMany: {
+            data: project.components.map((it) => ({
+              status: it.status,
+              assetUrl: it.assetUrl,
+              quantity: it.quantity,
+              unitPrice: it.unitPrice,
+              readOnly: true,
+              materialId: it.materialId,
+              servicePackageId: it.servicePackageId,
+              createdAt: it.createdAt,
+            })),
           },
         },
       },
@@ -48,13 +55,6 @@ export class OrdersService {
     const entities = await this.db.order.findMany({
       where: { clientId: props.user.id },
       orderBy: { createdAt: "desc" },
-      include: {
-        project: {
-          include: {
-            components: { include: { material: true, servicePackage: true } },
-          },
-        },
-      },
     });
 
     const mappedEntities = entities.map((it) => {
@@ -70,13 +70,6 @@ export class OrdersService {
   }): Promise<OrderDto> {
     const entity = await this.db.order.findFirst({
       where: { id: props.id, clientId: props.user.id },
-      include: {
-        project: {
-          include: {
-            components: { include: { material: true, servicePackage: true } },
-          },
-        },
-      },
     });
 
     if (!entity) {
@@ -100,13 +93,6 @@ export class OrdersService {
     const entity = await this.db.order.update({
       where: { id: props.id, clientId: props.user.id },
       data: { status: props.dto.status },
-      include: {
-        project: {
-          include: {
-            components: { include: { material: true, servicePackage: true } },
-          },
-        },
-      },
     });
 
     const mappedEntity = OrderDto.fromEntity(entity);
@@ -128,13 +114,6 @@ export class OrdersService {
     const entity = await this.db.order.update({
       where: { id: props.id, clientId: props.user.id },
       data: { status: OrderStatus.Cancelled },
-      include: {
-        project: {
-          include: {
-            components: { include: { material: true, servicePackage: true } },
-          },
-        },
-      },
     });
 
     const mappedEntity = OrderDto.fromEntity(entity);
