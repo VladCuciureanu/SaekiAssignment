@@ -1,7 +1,10 @@
 "use client";
+
 import * as React from "react";
-import { useShell } from "./context";
+
 import { cn } from "@/lib/utils";
+
+import { useShell } from "./context";
 import { Sidebar } from "./sidebar";
 
 interface ShellProps {

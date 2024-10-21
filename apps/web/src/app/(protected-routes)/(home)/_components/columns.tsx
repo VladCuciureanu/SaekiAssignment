@@ -2,9 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import { ProjectDto } from "@/types/saeki/project.dto";
+
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { ProjectDto } from "@/types/saeki/project.dto";
 import { projectStatusFilterOptions } from "./statuses";
 
 export const columns: ColumnDef<ProjectDto>[] = [

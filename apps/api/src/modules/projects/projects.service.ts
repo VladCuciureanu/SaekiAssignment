@@ -1,4 +1,4 @@
-import { PrismaClient, Project, ProjectStatus } from "@prisma/client";
+import { PrismaClient, Project } from "@prisma/client";
 import { CreateProjectDto } from "./dtos/create-project.dto";
 import { UserDto } from "../users/dtos/user.dto";
 import { ProjectDto } from "./dtos/project.dto";
@@ -17,9 +17,38 @@ export class ProjectsService {
     dto: CreateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
+    const defaultMaterial = await this.db.material.findFirst({
+      where: { default: true },
+    });
+
+    if (!defaultMaterial) {
+      console.error("Default material not found");
+      throw new NotFoundException();
+    }
+
+    const defaultServicePackage = await this.db.servicePackage.findFirst({
+      where: { default: true },
+    });
+
+    if (!defaultServicePackage) {
+      console.error("Default service package not found");
+      throw new NotFoundException();
+    }
+
     const entity = await this.db.project.create({
       data: {
         clientId: props.user.id,
+        items: {
+          createMany: {
+            data: props.dto.items.map((it) => {
+              return {
+                assetUrl: it.assetUrl,
+                materialId: defaultMaterial?.id,
+                servicePackageId: defaultServicePackage?.id,
+              };
+            }),
+          },
+        },
       },
       include: { items: { include: { material: true, servicePackage: true } } },
     });
@@ -70,11 +99,7 @@ export class ProjectsService {
     dto: UpdateProjectDto;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const originalEntity = await this.assertEntityExists(props);
-
-    if (originalEntity.status === ProjectStatus.ReadOnly) {
-      throw new ForbiddenException();
-    }
+    await this.assertEntityExists(props);
 
     const entity = await this.db.project.update({
       where: { id: props.id, clientId: props.user.id },
@@ -93,11 +118,7 @@ export class ProjectsService {
     id: string;
     user: UserDto;
   }): Promise<ProjectDto> {
-    const originalEntity = await this.assertEntityExists(props);
-
-    if (originalEntity.status === ProjectStatus.ReadOnly) {
-      throw new ForbiddenException();
-    }
+    await this.assertEntityExists(props);
 
     const entity = await this.db.project.delete({
       where: { id: props.id, clientId: props.user.id },

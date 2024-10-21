@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, ProjectStatus } from "@prisma/client";
+import { Prisma, PrismaClient, ProjectItemStatus } from "@prisma/client";
 import { CreateProjectItemDto } from "./dtos/create-project-item.dto";
 import { UserDto } from "../users/dtos/user.dto";
 import { ProjectItemDto } from "./dtos/project-item.dto";
@@ -44,10 +44,6 @@ export class ProjectItemsService {
       throw new UnauthorizedException(
         "User does not have access to parent project.",
       );
-    }
-
-    if (project.status === ProjectStatus.ReadOnly) {
-      throw new ForbiddenException();
     }
 
     const entity = await this.db.projectItem.create({
@@ -106,7 +102,7 @@ export class ProjectItemsService {
   }): Promise<ProjectItemDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.project.status === ProjectStatus.ReadOnly) {
+    if (originalEntity.status === ProjectItemStatus.ReadOnly) {
       throw new ForbiddenException();
     }
 
@@ -130,7 +126,7 @@ export class ProjectItemsService {
   }): Promise<ProjectItemDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.project.status === ProjectStatus.ReadOnly) {
+    if (originalEntity.status === ProjectItemStatus.ReadOnly) {
       throw new ForbiddenException();
     }
 

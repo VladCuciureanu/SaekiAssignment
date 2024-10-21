@@ -26,4 +26,13 @@ export class MaterialDto {
       archived: entity.archived,
     });
   }
+
+  static fromJson(json: any): MaterialDto {
+    return new MaterialDto({
+      id: json.id,
+      name: json.name,
+      price: json.price,
+      archived: json.archived,
+    });
+  }
 }

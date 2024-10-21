@@ -1,8 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+
 import { buttonVariants } from "@/components/ui/button";
 import { Logo } from "@/components/vector/logo";
+import { cn } from "@/lib/utils";
+
 import { LoginForm } from "./form";
 
 export const metadata: Metadata = {

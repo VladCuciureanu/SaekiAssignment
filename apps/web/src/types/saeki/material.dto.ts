@@ -15,4 +15,13 @@ export class MaterialDto {
     this.price = props.price;
     this.archived = props.archived;
   }
+
+  static fromJson(json: any): MaterialDto {
+    return new MaterialDto({
+      id: json.id,
+      name: json.name,
+      price: json.price,
+      archived: json.archived,
+    });
+  }
 }

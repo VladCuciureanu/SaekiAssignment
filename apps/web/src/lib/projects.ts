@@ -1,21 +1,28 @@
+import { CreateProjectDto } from "@/types/saeki/create-project.dto";
 import { ProjectDto } from "@/types/saeki/project.dto";
+import { UpdateProjectDto } from "@/types/saeki/update-project.dto";
 
-export async function createProject(project: ProjectDto): Promise<ProjectDto> {
+export async function createProject(
+  dto: CreateProjectDto,
+): Promise<ProjectDto> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify(project),
-  }).then((res) => res.json());
+    body: JSON.stringify(dto),
+  }).then((res) => res.json().then((res) => ProjectDto.fromJson(res)));
 }
 
 export async function getManyProjects(): Promise<ProjectDto[]> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects`, {
     credentials: "include",
   }).then((res) => {
-    if (res.status / 100 === 2) return res.json();
+    if (res.status / 100 === 2)
+      return res
+        .json()
+        .then((res) => res.map((it: any) => ProjectDto.fromJson(it)));
     return [];
   });
 }
@@ -26,21 +33,24 @@ export async function getProject(id: string): Promise<ProjectDto> {
     {
       credentials: "include",
     },
-  ).then((res) => res.json());
+  ).then((res) => res.json().then((res) => ProjectDto.fromJson(res)));
 }
 
-export async function updateProject(project: ProjectDto): Promise<ProjectDto> {
+export async function updateProject(
+  id: string,
+  dto: UpdateProjectDto,
+): Promise<ProjectDto> {
   return await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects/${project.id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects/${id}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(project),
+      body: JSON.stringify(dto),
     },
-  ).then((res) => res.json());
+  ).then((res) => res.json().then((res) => ProjectDto.fromJson(res)));
 }
 
 export async function deleteProject(id: string): Promise<ProjectDto> {
@@ -50,5 +60,5 @@ export async function deleteProject(id: string): Promise<ProjectDto> {
       method: "DELETE",
       credentials: "include",
     },
-  ).then((res) => res.json());
+  ).then((res) => res.json().then((res) => ProjectDto.fromJson(res)));
 }

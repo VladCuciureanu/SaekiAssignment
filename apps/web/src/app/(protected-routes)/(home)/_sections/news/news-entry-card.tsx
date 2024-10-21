@@ -1,20 +1,9 @@
-import { CameraOff } from "lucide-react";
+import { FakePhoto } from "@/components/fake-photo";
 
-export function NewsSection() {
+export function NewsEntryCard() {
   return (
-    <section id="news-section" className="flex w-full flex-col gap-4">
-      <h2 className="text-xl font-bold tracking-tight">News</h2>
-      <NewsEntry />
-      <NewsEntry />
-      <NewsEntry />
-    </section>
-  );
-}
-
-function NewsEntry() {
-  return (
-    <div className="flex w-full flex-col gap-2 rounded-lg border p-4">
-      <h2 className="text font-bold tracking-tight">Lorem Ipsum</h2>
+    <article className="flex w-full flex-col gap-2 rounded-lg border p-4">
+      <h3 className="text-lg font-semibold tracking-tight">Lorem Ipsum</h3>
       {/* <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tortor
         turpis, congue nec efficitur id, condimentum et nisi. Praesent vitae
@@ -47,14 +36,6 @@ function NewsEntry() {
         imperdiet quis risus. Integer et lorem mollis magna consectetur
         porttitor.
       </p>
-    </div>
-  );
-}
-
-function FakePhoto() {
-  return (
-    <div className="fake-photo bg-foreground/10 border-foreground/10 flex aspect-[4/3] h-24 cursor-pointer items-center justify-center rounded-lg border">
-      <CameraOff color="gray" />
-    </div>
+    </article>
   );
 }

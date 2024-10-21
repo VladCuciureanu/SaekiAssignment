@@ -1,7 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { flexRender } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
 import {
   Table,
@@ -12,10 +13,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { useProjects } from "./context";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
-import { useProjects } from "./context";
-import { useRouter } from "next/navigation";
 
 export function DataTable() {
   const router = useRouter();

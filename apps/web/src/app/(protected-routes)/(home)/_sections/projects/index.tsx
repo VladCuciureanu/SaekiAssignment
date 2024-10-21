@@ -1,7 +1,12 @@
 "use client";
+
+import { useEffect, useState } from "react";
+
 import { getManyProjects } from "@/lib/projects";
 import { ProjectDto } from "@/types/saeki/project.dto";
-import { useEffect, useState } from "react";
+
+import { MessageCard } from "../message-card";
+import { ProjectCard } from "./project-card";
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<ProjectDto[]>([]);
@@ -24,24 +29,5 @@ export function ProjectsSection() {
         <ProjectCard data={project} key={project.id} />
       ))}
     </section>
-  );
-}
-
-function MessageCard({ message }: { message: string }) {
-  return (
-    <div className="from-border to-border text-foreground/50 h-32 w-full rounded-lg bg-gradient-to-b p-px">
-      <div className="bg-background flex h-full w-full items-center justify-center rounded-[calc(var(--radius)-1px)] p-4 text-sm italic">
-        {message}
-      </div>
-    </div>
-  );
-}
-
-function ProjectCard({ data }: { data: ProjectDto }) {
-  return (
-    <div className="flex w-full flex-col gap-2 rounded-lg border p-4 shadow-md">
-      <h3 className="font-medium">{data.id}</h3>
-      <p>{data.createdAt.toLocaleDateString()}</p>
-    </div>
   );
 }

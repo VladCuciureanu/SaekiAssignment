@@ -1,8 +1,11 @@
 import { Metadata } from "next";
-import { ProjectsSection } from "./_sections/projects-section";
-import { QuickProjectCreationSection } from "./_sections/quick-project-creation-section";
-import { NewsSection } from "./_sections/news-section";
-import { OrdersSection } from "./_sections/orders-section";
+
+import { FileUploadProvider } from "@/components/file-upload/context";
+
+import { NewsSection } from "./_sections/news";
+import { OrdersSection } from "./_sections/orders";
+import { ProjectsSection } from "./_sections/projects";
+import { QuickProjectCreationSection } from "./_sections/quick-project-creation";
 
 export const metadata: Metadata = {
   title: "Home | Saeki",
@@ -22,7 +25,9 @@ export default function Home() {
         </div>
         <div className="flex w-full flex-col justify-between gap-4 lg:flex-row lg:gap-6">
           <div className="flex w-full flex-col gap-4">
-            <QuickProjectCreationSection />
+            <FileUploadProvider>
+              <QuickProjectCreationSection />
+            </FileUploadProvider>
             <ProjectsSection />
             <OrdersSection />
           </div>

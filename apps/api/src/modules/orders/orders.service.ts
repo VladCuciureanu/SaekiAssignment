@@ -1,9 +1,4 @@
-import {
-  Order,
-  OrderStatus,
-  PrismaClient,
-  ProjectStatus,
-} from "@prisma/client";
+import { Order, OrderStatus, PrismaClient } from "@prisma/client";
 import { CreateOrderDto } from "./dtos/create-order.dto";
 import { UserDto } from "../users/dtos/user.dto";
 import { OrderDto } from "./dtos/order.dto";
@@ -29,11 +24,6 @@ export class OrdersService {
     if (!project) {
       throw new NotFoundException();
     }
-
-    await this.db.project.update({
-      where: { id: props.dto.projectId, clientId: props.user.id },
-      data: { status: ProjectStatus.ReadOnly },
-    });
 
     const entity = await this.db.order.create({
       data: {

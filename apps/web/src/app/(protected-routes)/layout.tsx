@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/components/providers/auth-provider";
+
 import { Shell } from "../../components/shell";
 import { ShellProvider } from "../../components/shell/context";
 

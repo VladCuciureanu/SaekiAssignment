@@ -1,13 +1,15 @@
+import { CreateOrderDto } from "@/types/saeki/create-order.dto";
 import { OrderDto } from "@/types/saeki/order.dto";
+import { UpdateOrderDto } from "@/types/saeki/update-order.dto";
 
-export async function createOrder(order: OrderDto): Promise<OrderDto> {
+export async function createOrder(dto: CreateOrderDto): Promise<OrderDto> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify(order),
+    body: JSON.stringify(dto),
   }).then((res) => res.json());
 }
 
@@ -29,16 +31,19 @@ export async function getOrder(id: string): Promise<OrderDto> {
   ).then((res) => res.json());
 }
 
-export async function updateOrder(order: OrderDto): Promise<OrderDto> {
+export async function updateOrder(
+  id: string,
+  dto: UpdateOrderDto,
+): Promise<OrderDto> {
   return await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${order.id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${id}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(order),
+      body: JSON.stringify(dto),
     },
   ).then((res) => res.json());
 }

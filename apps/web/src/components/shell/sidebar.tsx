@@ -1,11 +1,3 @@
-import React from "react";
-import { useShell } from "./context";
-import { cn } from "@/lib/utils";
-import { Logo } from "@/components/vector/logo";
-import { LogoIcon } from "@/components/vector/logo-icon";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import { NavLinkGroup } from "./nav-link-group";
 import {
   Container,
   FolderOpen,
@@ -14,6 +6,16 @@ import {
   MessageSquare,
   Settings,
 } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+
+import { Separator } from "@/components/ui/separator";
+import { Logo } from "@/components/vector/logo";
+import { LogoIcon } from "@/components/vector/logo-icon";
+import { cn } from "@/lib/utils";
+
+import { useShell } from "./context";
+import { NavLinkGroup } from "./nav-link-group";
 import { UserDropdown } from "./user-dropdown";
 
 export function Sidebar() {
@@ -51,24 +53,21 @@ export function Sidebar() {
             isCollapsed={sidebarCollapsed}
             links={[
               {
-                href: "/dashboard",
+                href: "/",
                 title: "Dashboard",
                 icon: LayoutDashboard,
-                variant: "default",
               },
               {
                 title: "Projects",
                 label: "99",
                 href: "/projects",
                 icon: FolderOpen,
-                variant: "ghost",
               },
               {
                 title: "Orders",
                 label: "99",
                 href: "/orders",
                 icon: Container,
-                variant: "ghost",
               },
             ]}
           />
@@ -80,7 +79,6 @@ export function Sidebar() {
                 href: "/support",
                 title: "Support",
                 icon: MessageSquare,
-                variant: "ghost",
               },
             ]}
           />
@@ -93,7 +91,6 @@ export function Sidebar() {
                 href: "/settings",
                 title: "Settings",
                 icon: Settings,
-                variant: "ghost",
               },
             ]}
           />

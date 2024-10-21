@@ -1,7 +1,9 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import { UserAuthForm } from "../user-auth-form";
 import { useState } from "react";
+
+import { UserAuthForm } from "../user-auth-form";
 
 export function RegisterForm() {
   const router = useRouter();

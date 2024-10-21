@@ -15,4 +15,13 @@ export class ServicePackageDto {
     this.price = props.price;
     this.archived = props.archived;
   }
+
+  static fromJson(json: any): ServicePackageDto {
+    return new ServicePackageDto({
+      id: json.id,
+      name: json.name,
+      price: json.price,
+      archived: json.archived,
+    });
+  }
 }
