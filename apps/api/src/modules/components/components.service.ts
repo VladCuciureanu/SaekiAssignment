@@ -102,7 +102,7 @@ export class ComponentsService {
   }): Promise<ComponentDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.status === ComponentStatus.ReadOnly) {
+    if (originalEntity.readOnly) {
       throw new ForbiddenException();
     }
 
@@ -126,7 +126,7 @@ export class ComponentsService {
   }): Promise<ComponentDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.status === ComponentStatus.ReadOnly) {
+    if (originalEntity.readOnly) {
       throw new ForbiddenException();
     }
 

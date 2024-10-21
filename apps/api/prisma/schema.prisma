@@ -13,7 +13,6 @@ enum ComponentStatus {
   Created
   AutoQuoted
   ManuallyQuoted
-  ReadOnly
 }
 
 enum OrderStatus {
@@ -43,6 +42,7 @@ model Component {
   assetUrl  String
   quantity  Int             @default(1)
   unitPrice Float?
+  readOnly  Boolean         @default(false)
 
   project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId        String

@@ -5,12 +5,12 @@ export enum ComponentStatus {
   Created = "Created",
   AutoQuoted = "AutoQuoted",
   ManuallyQuoted = "ManuallyQuoted",
-  ReadOnly = "ReadOnly",
 }
 
 export class ComponentDto {
   id: string;
   status: ComponentStatus;
+  readOnly: boolean;
   assetUrl: string;
   quantity: number;
   unitPrice?: number;
@@ -20,6 +20,7 @@ export class ComponentDto {
   constructor(props: {
     id: string;
     status: ComponentStatus;
+    readOnly: boolean;
     assetUrl: string;
     quantity: number;
     unitPrice?: number;
@@ -28,6 +29,7 @@ export class ComponentDto {
   }) {
     this.id = props.id;
     this.status = props.status;
+    this.readOnly = props.readOnly;
     this.assetUrl = props.assetUrl;
     this.quantity = props.quantity;
     this.unitPrice = props.unitPrice;
@@ -39,6 +41,7 @@ export class ComponentDto {
     return new ComponentDto({
       id: json.id,
       status: json.status,
+      readOnly: json.readOnly,
       assetUrl: json.assetUrl,
       quantity: json.quantity,
       unitPrice: json.unitPrice,
