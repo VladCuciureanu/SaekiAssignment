@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { getManyOrders } from "@/lib/orders";
 
-import { MessageCard } from "../message-card";
+import { MessageCard } from "../../../message-card";
 import { OrderCard } from "./order-card";
 
 export function OrdersSection() {

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { getManyProjects } from "@/lib/projects";
 
-import { MessageCard } from "../message-card";
+import { MessageCard } from "../../../message-card";
 import { ProjectCard } from "./project-card";
 
 export function ProjectsSection() {

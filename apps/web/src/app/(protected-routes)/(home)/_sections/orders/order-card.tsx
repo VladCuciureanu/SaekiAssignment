@@ -5,8 +5,8 @@ import React from "react";
 
 import { getComponentsByOrderId } from "@/lib/components";
 
-import { ComponentCard } from "../component-card";
-import { MessageCard } from "../message-card";
+import { ComponentCard } from "../../../../../components/component-card";
+import { MessageCard } from "../../../message-card";
 
 export function OrderCard(props: { data: OrderDto }) {
   const [components, setComponents] = React.useState<ComponentDto[]>([]);

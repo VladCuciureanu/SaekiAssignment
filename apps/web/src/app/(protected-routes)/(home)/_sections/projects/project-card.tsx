@@ -5,8 +5,8 @@ import React from "react";
 
 import { getComponentsByProjectId } from "@/lib/components";
 
-import { ComponentCard } from "../component-card";
-import { MessageCard } from "../message-card";
+import { ComponentCard } from "../../../../../components/component-card";
+import { MessageCard } from "../../../message-card";
 
 export function ProjectCard(props: { data: ProjectDto }) {
   const [components, setComponents] = React.useState<ComponentDto[]>([]);
