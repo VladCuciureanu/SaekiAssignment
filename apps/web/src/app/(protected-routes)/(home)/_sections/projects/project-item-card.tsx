@@ -20,7 +20,7 @@ export function ProjectItemCard(props: { data: ProjectItemDto }) {
           <div className="flex gap-1 items-center">
             <p>Total:</p>
             <b>
-              {!props.data.unitPrice && <>Calculating...</>}
+              {!props.data.unitPrice && <i>Calculating...</i>}
               {props.data.unitPrice && (
                 <>
                   $
