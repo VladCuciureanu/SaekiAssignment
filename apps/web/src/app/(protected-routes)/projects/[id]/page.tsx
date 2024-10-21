@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { FileUploadProvider } from "@/components/file-upload/context";
 import { getProject } from "@/lib/projects";
 
-import { QuickProjectCreationSection } from "../../(home)/_sections/quick-project-creation";
+import { AddMoreFilesSection } from "./_sections/add-more-files";
 import { ComponentsSection } from "./_sections/components";
 
 export default function ProjectPage({ params }: { params: { id: string } }) {
@@ -40,7 +40,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
           <div className="flex w-full flex-col gap-4">
             <ComponentsSection projectId={params.id} />
             <FileUploadProvider projectId={params.id}>
-              <QuickProjectCreationSection />
+              <AddMoreFilesSection />
             </FileUploadProvider>
           </div>
           <div className="w-full">Order form here</div>
