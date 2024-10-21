@@ -1,23 +1,23 @@
-import { Prisma, PrismaClient, ProjectItemStatus } from "@prisma/client";
-import { CreateProjectItemDto } from "./dtos/create-project-item.dto";
+import { Prisma, PrismaClient, ComponentStatus } from "@prisma/client";
+import { CreateComponentDto } from "./dtos/create-component.dto";
 import { UserDto } from "../users/dtos/user.dto";
-import { ProjectItemDto } from "./dtos/project-item.dto";
-import { UpdateProjectItemDto } from "./dtos/update-project-item.dto";
+import { ComponentDto } from "./dtos/component.dto";
+import { UpdateComponentDto } from "./dtos/update-component.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
 import { UnauthorizedException } from "../auth/exceptions/unauthorized.exception";
 import { ForbiddenException } from "../common/exceptions/forbidden.exception";
 
-export class ProjectItemsService {
+export class ComponentsService {
   db: PrismaClient;
 
   constructor(props: { db: PrismaClient }) {
     this.db = props.db;
   }
 
-  public async createProjectItem(props: {
-    dto: CreateProjectItemDto;
+  public async createComponent(props: {
+    dto: CreateComponentDto;
     user: UserDto;
-  }): Promise<ProjectItemDto> {
+  }): Promise<ComponentDto> {
     const defaultMaterial = await this.db.material.findFirst({
       where: { default: true },
     });
@@ -46,7 +46,7 @@ export class ProjectItemsService {
       );
     }
 
-    const entity = await this.db.projectItem.create({
+    const entity = await this.db.component.create({
       data: {
         projectId: props.dto.projectId,
         assetUrl: props.dto.assetUrl,
@@ -56,32 +56,32 @@ export class ProjectItemsService {
       include: { material: true, servicePackage: true },
     });
 
-    const mappedEntity = ProjectItemDto.fromEntity(entity);
+    const mappedEntity = ComponentDto.fromEntity(entity);
 
     return mappedEntity;
   }
 
-  public async getManyProjectItems(props: {
+  public async getManyComponents(props: {
     user: UserDto;
-  }): Promise<ProjectItemDto[]> {
-    const entities = await this.db.projectItem.findMany({
+  }): Promise<ComponentDto[]> {
+    const entities = await this.db.component.findMany({
       where: { project: { clientId: props.user.id } },
       include: { material: true, servicePackage: true },
       orderBy: { createdAt: "desc" },
     });
 
     const mappedEntities = entities.map((it) => {
-      return ProjectItemDto.fromEntity(it);
+      return ComponentDto.fromEntity(it);
     });
 
     return mappedEntities;
   }
 
-  public async getProjectItem(props: {
+  public async getComponent(props: {
     id: string;
     user: UserDto;
-  }): Promise<ProjectItemDto> {
-    const entity = await this.db.projectItem.findFirst({
+  }): Promise<ComponentDto> {
+    const entity = await this.db.component.findFirst({
       where: { id: props.id, project: { clientId: props.user.id } },
       include: { material: true, servicePackage: true },
     });
@@ -90,23 +90,23 @@ export class ProjectItemsService {
       throw new NotFoundException();
     }
 
-    const mappedEntity = ProjectItemDto.fromEntity(entity);
+    const mappedEntity = ComponentDto.fromEntity(entity);
 
     return mappedEntity;
   }
 
-  public async updateProjectItem(props: {
+  public async updateComponent(props: {
     id: string;
-    dto: UpdateProjectItemDto;
+    dto: UpdateComponentDto;
     user: UserDto;
-  }): Promise<ProjectItemDto> {
+  }): Promise<ComponentDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.status === ProjectItemStatus.ReadOnly) {
+    if (originalEntity.status === ComponentStatus.ReadOnly) {
       throw new ForbiddenException();
     }
 
-    const entity = await this.db.projectItem.update({
+    const entity = await this.db.component.update({
       where: { id: props.id, project: { clientId: props.user.id } },
       data: props.dto,
       include: {
@@ -115,22 +115,22 @@ export class ProjectItemsService {
       },
     });
 
-    const mappedEntity = ProjectItemDto.fromEntity(entity);
+    const mappedEntity = ComponentDto.fromEntity(entity);
 
     return mappedEntity;
   }
 
-  public async deleteProjectItem(props: {
+  public async deleteComponent(props: {
     id: string;
     user: UserDto;
-  }): Promise<ProjectItemDto> {
+  }): Promise<ComponentDto> {
     const originalEntity = await this.assertEntityExists(props);
 
-    if (originalEntity.status === ProjectItemStatus.ReadOnly) {
+    if (originalEntity.status === ComponentStatus.ReadOnly) {
       throw new ForbiddenException();
     }
 
-    const entity = await this.db.projectItem.delete({
+    const entity = await this.db.component.delete({
       where: { id: props.id, project: { clientId: props.user.id } },
       include: {
         material: true,
@@ -138,7 +138,7 @@ export class ProjectItemsService {
       },
     });
 
-    const mappedEntity = ProjectItemDto.fromEntity(entity);
+    const mappedEntity = ComponentDto.fromEntity(entity);
 
     return mappedEntity;
   }
@@ -146,8 +146,8 @@ export class ProjectItemsService {
   private async assertEntityExists(props: {
     id: string;
     user: UserDto;
-  }): Promise<Prisma.ProjectItemGetPayload<{ include: { project: true } }>> {
-    const entity = await this.db.projectItem.findFirst({
+  }): Promise<Prisma.ComponentGetPayload<{ include: { project: true } }>> {
+    const entity = await this.db.component.findFirst({
       where: { id: props.id, project: { clientId: props.user.id } },
       include: { project: true },
     });

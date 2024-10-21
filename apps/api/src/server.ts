@@ -8,7 +8,7 @@ import { routeNotFound } from "./modules/common/middlewares/route-not-found.midd
 import { generateAuthRouter } from "./modules/auth/auth.routes";
 import { generateProjectsRouter } from "./modules/projects/projects.routes";
 import { authenticate } from "./modules/auth/middlewares/authentication.middleware";
-import { generateProjectItemsRouter } from "./modules/project-items/project-items.routes";
+import { generateComponentsRouter } from "./modules/components/components.routes";
 import { generateOrdersRouter } from "./modules/orders/orders.routes";
 import { env } from "./modules/env";
 import cookieParser from "cookie-parser";
@@ -19,11 +19,7 @@ function generateRouter() {
 
   router.use("/auth", generateAuthRouter({ db }));
   router.use("/projects", authenticate, generateProjectsRouter({ db }));
-  router.use(
-    "/project-items",
-    authenticate,
-    generateProjectItemsRouter({ db }),
-  );
+  router.use("/components", authenticate, generateComponentsRouter({ db }));
   router.use("/orders", authenticate, generateOrdersRouter({ db }));
 
   router.get("/health", (_, res) => {

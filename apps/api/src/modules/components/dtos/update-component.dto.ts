@@ -1,8 +1,8 @@
 import z from "zod";
 
-export type UpdateProjectItemDto = z.infer<typeof UpdateProjectItemDtoSchema>;
+export type UpdateComponentDto = z.infer<typeof UpdateComponentDtoSchema>;
 
-export const UpdateProjectItemDtoSchema = z
+export const UpdateComponentDtoSchema = z
   .object({
     quantity: z.number().min(1),
     materialId: z.string(),

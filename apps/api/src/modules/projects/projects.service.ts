@@ -4,7 +4,6 @@ import { UserDto } from "../users/dtos/user.dto";
 import { ProjectDto } from "./dtos/project.dto";
 import { UpdateProjectDto } from "./dtos/update-project.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
-import { ForbiddenException } from "../common/exceptions/forbidden.exception";
 
 export class ProjectsService {
   db: PrismaClient;
@@ -38,9 +37,9 @@ export class ProjectsService {
     const entity = await this.db.project.create({
       data: {
         clientId: props.user.id,
-        items: {
+        components: {
           createMany: {
-            data: props.dto.items.map((it) => {
+            data: props.dto.components.map((it) => {
               return {
                 assetUrl: it.assetUrl,
                 materialId: defaultMaterial?.id,
@@ -50,7 +49,9 @@ export class ProjectsService {
           },
         },
       },
-      include: { items: { include: { material: true, servicePackage: true } } },
+      include: {
+        components: { include: { material: true, servicePackage: true } },
+      },
     });
 
     const mappedEntity = ProjectDto.fromEntity(entity);
@@ -63,7 +64,9 @@ export class ProjectsService {
   }): Promise<ProjectDto[]> {
     const entities = await this.db.project.findMany({
       where: { clientId: props.user.id },
-      include: { items: { include: { material: true, servicePackage: true } } },
+      include: {
+        components: { include: { material: true, servicePackage: true } },
+      },
       orderBy: { createdAt: "desc" },
     });
 
@@ -81,7 +84,7 @@ export class ProjectsService {
     const entity = await this.db.project.findFirst({
       where: { id: props.id, clientId: props.user.id },
       include: {
-        items: { include: { material: true, servicePackage: true } },
+        components: { include: { material: true, servicePackage: true } },
       },
     });
 
@@ -105,7 +108,7 @@ export class ProjectsService {
       where: { id: props.id, clientId: props.user.id },
       data: props.dto,
       include: {
-        items: { include: { material: true, servicePackage: true } },
+        components: { include: { material: true, servicePackage: true } },
       },
     });
 
@@ -123,7 +126,7 @@ export class ProjectsService {
     const entity = await this.db.project.delete({
       where: { id: props.id, clientId: props.user.id },
       include: {
-        items: { include: { material: true, servicePackage: true } },
+        components: { include: { material: true, servicePackage: true } },
       },
     });
 

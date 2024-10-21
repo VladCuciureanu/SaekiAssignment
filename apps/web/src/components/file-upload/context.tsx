@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { createProjectItem } from "@/lib/project-items";
+import { createComponent } from "@/lib/components";
 import { createProject } from "@/lib/projects";
 
 import { ModelConfirmationDialog } from "./model-confirmation-dialog";
@@ -38,7 +38,7 @@ export function FileUploadProvider({
     if (projectId) {
       await Promise.all(
         files.map(async (file) => {
-          await createProjectItem({
+          await createComponent({
             projectId: projectId!,
             assetUrl: `https://google.com/${encodeURIComponent(file.name)}`,
           });
@@ -46,7 +46,7 @@ export function FileUploadProvider({
       ).catch(console.error);
     } else {
       const project = await createProject({
-        items: files.map((file) => ({
+        components: files.map((file) => ({
           assetUrl: `https://google.com/${encodeURIComponent(file.name)}`,
         })),
       });

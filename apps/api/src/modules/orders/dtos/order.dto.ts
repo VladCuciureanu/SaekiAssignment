@@ -1,4 +1,4 @@
-import { OrderStatus, Order, Prisma } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
 import { ProjectDto } from "../../projects/dtos/project.dto";
 
 export class OrderDto {
@@ -27,7 +27,7 @@ export class OrderDto {
       include: {
         project: {
           include: {
-            items: { include: { material: true; servicePackage: true } };
+            components: { include: { material: true; servicePackage: true } };
           };
         };
       };

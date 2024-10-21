@@ -33,7 +33,7 @@ export class OrdersService {
       include: {
         project: {
           include: {
-            items: { include: { material: true, servicePackage: true } },
+            components: { include: { material: true, servicePackage: true } },
           },
         },
       },
@@ -51,7 +51,7 @@ export class OrdersService {
       include: {
         project: {
           include: {
-            items: { include: { material: true, servicePackage: true } },
+            components: { include: { material: true, servicePackage: true } },
           },
         },
       },
@@ -73,7 +73,7 @@ export class OrdersService {
       include: {
         project: {
           include: {
-            items: { include: { material: true, servicePackage: true } },
+            components: { include: { material: true, servicePackage: true } },
           },
         },
       },
@@ -103,7 +103,7 @@ export class OrdersService {
       include: {
         project: {
           include: {
-            items: { include: { material: true, servicePackage: true } },
+            components: { include: { material: true, servicePackage: true } },
           },
         },
       },
@@ -131,7 +131,7 @@ export class OrdersService {
       include: {
         project: {
           include: {
-            items: { include: { material: true, servicePackage: true } },
+            components: { include: { material: true, servicePackage: true } },
           },
         },
       },

@@ -15,7 +15,7 @@ import {
 } from "@tanstack/react-table";
 import { createContext, useContext, useState } from "react";
 
-import { ProjectDto, ProjectStatus } from "@/types/saeki/project.dto";
+import { ProjectDto } from "@/types/saeki/project.dto";
 
 import { columns } from "./columns";
 
@@ -31,8 +31,7 @@ export function ProjectsProvider(props: { children: React.ReactNode }) {
   const [data, setData] = useState<ProjectDto[]>([
     {
       id: "a",
-      status: ProjectStatus.Created,
-      items: [],
+      components: [],
       createdAt: new Date(),
     },
   ]);

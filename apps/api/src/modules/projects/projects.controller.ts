@@ -13,7 +13,7 @@ export class ProjectsController {
     this.service = new ProjectsService({ db: this.db });
   }
 
-  public async createProject(req: Request, res: Response, next: NextFunction) {
+  public async createProject(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body;
     const user = res.locals.user as UserDto;
 
@@ -23,9 +23,9 @@ export class ProjectsController {
   }
 
   public async getManyProjects(
-    req: Request,
+    _req: Request,
     res: Response,
-    next: NextFunction,
+    _next: NextFunction,
   ) {
     const user = res.locals.user as UserDto;
 
@@ -34,7 +34,7 @@ export class ProjectsController {
     res.json(entities);
   }
 
-  public async getProject(req: Request, res: Response, next: NextFunction) {
+  public async getProject(req: Request, res: Response, _next: NextFunction) {
     const user = res.locals.user as UserDto;
     const id = req.params.id;
 
@@ -47,7 +47,7 @@ export class ProjectsController {
     res.json(entity);
   }
 
-  public async updateProject(req: Request, res: Response, next: NextFunction) {
+  public async updateProject(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body;
     const user = res.locals.user as UserDto;
     const id = req.params.id;
@@ -61,7 +61,7 @@ export class ProjectsController {
     res.json(entity);
   }
 
-  public async deleteProject(req: Request, res: Response, next: NextFunction) {
+  public async deleteProject(req: Request, res: Response, _next: NextFunction) {
     const user = res.locals.user as UserDto;
     const id = req.params.id;
 

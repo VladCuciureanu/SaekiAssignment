@@ -1,16 +1,16 @@
 import { MaterialDto } from "./material.dto";
 import { ServicePackageDto } from "./service-package.dto";
 
-export enum ProjectItemStatus {
+export enum ComponentStatus {
   Created = "Created",
   AutoQuoted = "AutoQuoted",
   ManuallyQuoted = "ManuallyQuoted",
   ReadOnly = "ReadOnly",
 }
 
-export class ProjectItemDto {
+export class ComponentDto {
   id: string;
-  status: ProjectItemStatus;
+  status: ComponentStatus;
   assetUrl: string;
   quantity: number;
   unitPrice?: number;
@@ -19,7 +19,7 @@ export class ProjectItemDto {
 
   constructor(props: {
     id: string;
-    status: ProjectItemStatus;
+    status: ComponentStatus;
     assetUrl: string;
     quantity: number;
     unitPrice?: number;
@@ -35,8 +35,8 @@ export class ProjectItemDto {
     this.servicePackage = props.servicePackage;
   }
 
-  static fromJson(json: any): ProjectItemDto {
-    return new ProjectItemDto({
+  static fromJson(json: any): ComponentDto {
+    return new ComponentDto({
       id: json.id,
       status: json.status,
       assetUrl: json.assetUrl,

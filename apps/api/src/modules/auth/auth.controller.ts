@@ -13,7 +13,7 @@ export class AuthController {
     this.service = new AuthService({ db: this.db });
   }
 
-  public async login(req: Request, res: Response, next: NextFunction) {
+  public async login(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body as LoginDto;
 
     const { token, user } = await this.service.login({ dto });
@@ -24,7 +24,7 @@ export class AuthController {
     res.json({ token });
   }
 
-  public async register(req: Request, res: Response, next: NextFunction) {
+  public async register(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body as RegisterDto;
 
     const { token, user } = await this.service.register({ dto });

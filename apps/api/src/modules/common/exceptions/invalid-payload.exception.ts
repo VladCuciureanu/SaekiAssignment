@@ -1,8 +1,8 @@
 import { BaseException } from "./base.exception";
 
 export class InvalidPayloadException extends BaseException {
-  issues: any[] = [];
-  constructor(issues: any[]) {
+  issues: unknown[] = [];
+  constructor(issues: unknown[]) {
     super(`Invalid payload.`, 400, "INVALID_PAYLOAD");
     this.issues = issues;
   }

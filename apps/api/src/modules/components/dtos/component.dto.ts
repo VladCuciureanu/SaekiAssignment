@@ -1,10 +1,10 @@
-import { Prisma, ProjectItemStatus } from "@prisma/client";
+import { Prisma, ComponentStatus } from "@prisma/client";
 import { MaterialDto } from "../../materials/dtos/material.dto";
 import { ServicePackageDto } from "../../service-packages/dtos/service-package.dto";
 
-export class ProjectItemDto {
+export class ComponentDto {
   id: string;
-  status: ProjectItemStatus;
+  status: ComponentStatus;
   assetUrl: string;
   quantity: number;
   unitPrice?: number;
@@ -13,7 +13,7 @@ export class ProjectItemDto {
 
   constructor(props: {
     id: string;
-    status: ProjectItemStatus;
+    status: ComponentStatus;
     assetUrl: string;
     quantity: number;
     unitPrice?: number;
@@ -30,11 +30,11 @@ export class ProjectItemDto {
   }
 
   static fromEntity(
-    entity: Prisma.ProjectItemGetPayload<{
+    entity: Prisma.ComponentGetPayload<{
       include: { material: true; servicePackage: true };
     }>,
-  ): ProjectItemDto {
-    return new ProjectItemDto({
+  ): ComponentDto {
+    return new ComponentDto({
       id: entity.id,
       status: entity.status,
       assetUrl: entity.assetUrl,
@@ -45,8 +45,8 @@ export class ProjectItemDto {
     });
   }
 
-  static fromJson(json: any): ProjectItemDto {
-    return new ProjectItemDto({
+  static fromJson(json: any): ComponentDto {
+    return new ComponentDto({
       id: json.id,
       status: json.status,
       assetUrl: json.assetUrl,

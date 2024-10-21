@@ -13,7 +13,7 @@ export class OrdersController {
     this.service = new OrdersService({ db: this.db });
   }
 
-  public async createOrder(req: Request, res: Response, next: NextFunction) {
+  public async createOrder(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body;
     const user = res.locals.user as UserDto;
 
@@ -22,7 +22,7 @@ export class OrdersController {
     res.json(entity);
   }
 
-  public async getManyOrders(req: Request, res: Response, next: NextFunction) {
+  public async getManyOrders(req: Request, res: Response, _next: NextFunction) {
     const user = res.locals.user as UserDto;
 
     const entities = await this.service.getManyOrders({ user });
@@ -30,7 +30,7 @@ export class OrdersController {
     res.json(entities);
   }
 
-  public async getOrder(req: Request, res: Response, next: NextFunction) {
+  public async getOrder(req: Request, res: Response, _next: NextFunction) {
     const user = res.locals.user as UserDto;
     const id = req.params.id;
 
@@ -43,7 +43,7 @@ export class OrdersController {
     res.json(entity);
   }
 
-  public async updateOrder(req: Request, res: Response, next: NextFunction) {
+  public async updateOrder(req: Request, res: Response, _next: NextFunction) {
     const dto = req.body;
     const user = res.locals.user as UserDto;
     const id = req.params.id;
@@ -57,7 +57,7 @@ export class OrdersController {
     res.json(entity);
   }
 
-  public async deleteOrder(req: Request, res: Response, next: NextFunction) {
+  public async deleteOrder(req: Request, res: Response, _next: NextFunction) {
     const user = res.locals.user as UserDto;
     const id = req.params.id;
 

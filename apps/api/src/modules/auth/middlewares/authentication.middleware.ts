@@ -35,7 +35,7 @@ export const authenticate = async (
     res.locals.user = payload.user;
 
     next();
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof TokenExpiredError) {
       next(new TokenExpiredException(error.message));
     }
