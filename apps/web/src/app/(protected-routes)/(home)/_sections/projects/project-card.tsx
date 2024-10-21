@@ -1,7 +1,6 @@
+import { ProjectDto } from "@saeki/schema";
 import Link from "next/link";
 import { Fragment } from "react";
-
-import { ProjectDto } from "@/types/saeki/project.dto";
 
 import { ComponentCard } from "../component-card";
 import { MessageCard } from "../message-card";

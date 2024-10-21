@@ -1,9 +1,11 @@
-import { CreateProjectDto } from "@/types/saeki/create-project.dto";
-import { ProjectDto } from "@/types/saeki/project.dto";
-import { UpdateProjectDto } from "@/types/saeki/update-project.dto";
+import {
+  CreateProjectRequest,
+  ProjectDto,
+  UpdateProjectRequest,
+} from "@saeki/schema";
 
 export async function createProject(
-  dto: CreateProjectDto,
+  dto: CreateProjectRequest,
 ): Promise<ProjectDto> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects`, {
     method: "POST",
@@ -38,7 +40,7 @@ export async function getProject(id: string): Promise<ProjectDto> {
 
 export async function updateProject(
   id: string,
-  dto: UpdateProjectDto,
+  dto: UpdateProjectRequest,
 ): Promise<ProjectDto> {
   return await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects/${id}`,

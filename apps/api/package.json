@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "yarn run prisma:generate",
+    "prebuild": "yarn run prisma:generate || npm run prisma:generate",
     "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.21.0",
+    "@saeki/schema": "*",
     "argon2": "^0.41.1",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.7",

@@ -1,4 +1,4 @@
-import { OrderDto } from "@/types/saeki/order.dto";
+import { OrderDto } from "@saeki/schema";
 
 export function OrderCard(props: { data: OrderDto }) {
   return (

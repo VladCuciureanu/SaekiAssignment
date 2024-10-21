@@ -1,10 +1,8 @@
-import { ComponentDto } from "@/types/saeki/component.dto";
-import { CreateComponentDto } from "@/types/saeki/create-component.dto";
-
-// import { UpdateComponentDto } from "@/types/saeki/update-component.dto";
+import { ComponentDto } from "@saeki/schema";
+import { CreateComponentRequest } from "@saeki/schema";
 
 export async function createComponent(
-  dto: CreateComponentDto,
+  dto: CreateComponentRequest,
 ): Promise<ComponentDto> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/components`, {
     method: "POST",

@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import { LoginDto } from "./dtos/login.dto";
-import { RegisterDto } from "./dtos/register.dto";
+import { LoginRequest, RegisterRequest } from "@saeki/schema";
 
 export class AuthController {
   db: PrismaClient;
@@ -14,7 +13,7 @@ export class AuthController {
   }
 
   public async login(req: Request, res: Response, _next: NextFunction) {
-    const dto = req.body as LoginDto;
+    const dto = req.body as LoginRequest;
 
     const { token, user } = await this.service.login({ dto });
 
@@ -25,7 +24,7 @@ export class AuthController {
   }
 
   public async register(req: Request, res: Response, _next: NextFunction) {
-    const dto = req.body as RegisterDto;
+    const dto = req.body as RegisterRequest;
 
     const { token, user } = await this.service.register({ dto });
 

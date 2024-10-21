@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { LoginDto } from "./dtos/login.dto";
 import jwt from "jsonwebtoken";
 import { env } from "../env";
 import argon2 from "argon2";
-import { UserDto } from "../users/dtos/user.dto";
-import { RegisterDto } from "./dtos/register.dto";
 import { InvalidCredentialsException } from "./exceptions/invalid-credentials.exception";
 import { EmailTakenException } from "./exceptions/email-taken.exception";
+import { UserDto } from "@saeki/schema";
+import { RegisterRequest } from "@saeki/schema";
+import { LoginRequest } from "@saeki/schema";
 
 export class AuthService {
   db: PrismaClient;
@@ -16,7 +16,7 @@ export class AuthService {
   }
 
   public async login(props: {
-    dto: LoginDto;
+    dto: LoginRequest;
   }): Promise<{ user: UserDto; token: string }> {
     const user = await this.db.user.findUnique({
       where: { email: props.dto.email },
@@ -26,7 +26,7 @@ export class AuthService {
       const mappedUser = UserDto.fromEntity(user);
 
       return {
-        user: UserDto.fromEntity(user),
+        user: mappedUser,
         token: jwt.sign(
           {
             user: mappedUser,
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   public async register(props: {
-    dto: RegisterDto;
+    dto: RegisterRequest;
   }): Promise<{ user: UserDto; token: string }> {
     const userExists = await this.db.user
       .findUnique({
@@ -62,7 +62,7 @@ export class AuthService {
     const mappedUser = UserDto.fromEntity(user);
 
     return {
-      user: UserDto.fromEntity(user),
+      user: mappedUser,
       token: jwt.sign(
         {
           user: mappedUser,

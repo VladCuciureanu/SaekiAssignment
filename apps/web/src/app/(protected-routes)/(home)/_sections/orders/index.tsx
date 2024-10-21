@@ -1,9 +1,9 @@
 "use client";
 
+import { OrderDto } from "@saeki/schema";
 import { useEffect, useState } from "react";
 
 import { getManyOrders } from "@/lib/orders";
-import { OrderDto } from "@/types/saeki/order.dto";
 
 import { MessageCard } from "../message-card";
 import { OrderCard } from "./order-card";

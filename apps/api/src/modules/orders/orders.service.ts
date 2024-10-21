@@ -1,10 +1,10 @@
 import { Order, OrderStatus, PrismaClient } from "@prisma/client";
-import { CreateOrderDto } from "./dtos/create-order.dto";
-import { UserDto } from "../users/dtos/user.dto";
-import { OrderDto } from "./dtos/order.dto";
-import { UpdateOrderDto } from "./dtos/update-order.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
 import { ForbiddenException } from "../common/exceptions/forbidden.exception";
+import { CreateOrderRequest } from "@saeki/schema";
+import { UserDto } from "@saeki/schema";
+import { OrderDto } from "@saeki/schema";
+import { UpdateOrderRequest } from "@saeki/schema";
 
 export class OrdersService {
   db: PrismaClient;
@@ -14,7 +14,7 @@ export class OrdersService {
   }
 
   public async createOrder(props: {
-    dto: CreateOrderDto;
+    dto: CreateOrderRequest;
     user: UserDto;
   }): Promise<OrderDto> {
     const project = await this.db.project.findFirst({
@@ -90,7 +90,7 @@ export class OrdersService {
 
   public async updateOrder(props: {
     id: string;
-    dto: UpdateOrderDto;
+    dto: UpdateOrderRequest;
     user: UserDto;
   }): Promise<OrderDto> {
     await this.assertEntityExists(props);

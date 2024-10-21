@@ -1,9 +1,9 @@
 "use client";
 
+import { ProjectDto } from "@saeki/schema";
 import { useEffect, useState } from "react";
 
 import { getManyProjects } from "@/lib/projects";
-import { ProjectDto } from "@/types/saeki/project.dto";
 
 import { MessageCard } from "../message-card";
 import { ProjectCard } from "./project-card";

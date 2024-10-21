@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { ProjectsService } from "./projects.service";
-import { UserDto } from "../users/dtos/user.dto";
 import { InvalidPayloadException } from "../common/exceptions/invalid-payload.exception";
+import { UserDto } from "@saeki/schema";
 
 export class ProjectsController {
   db: PrismaClient;

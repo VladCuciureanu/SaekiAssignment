@@ -2,9 +2,9 @@ import { Router } from "express";
 import { ProjectsController } from "./projects.controller";
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
-import { CreateProjectDtoSchema } from "./dtos/create-project.dto";
 import { validate } from "../common/middlewares/schema-validation.middleware";
-import { UpdateProjectDtoSchema } from "./dtos/update-project.dto";
+import { CreateProjectRequestSchema } from "@saeki/schema";
+import { UpdateProjectRequestSchema } from "@saeki/schema";
 
 export function generateProjectsRouter(props: { db: PrismaClient }) {
   const router = Router();
@@ -13,7 +13,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   // Create a new project
   router.post(
     "/",
-    validate(CreateProjectDtoSchema),
+    validate(CreateProjectRequestSchema),
     asyncHandler((req, res, next) => {
       return controller.createProject(req, res, next);
     }),
@@ -38,7 +38,7 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
   // Update a project
   router.put(
     "/:id",
-    validate(UpdateProjectDtoSchema),
+    validate(UpdateProjectRequestSchema),
     asyncHandler((req, res, next) => {
       return controller.updateProject(req, res, next);
     }),

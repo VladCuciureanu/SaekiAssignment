@@ -1,4 +1,4 @@
-import { UserDto } from "../modules/users/dtos/user.dto";
+import { UserDto } from "@saeki/schema";
 
 declare module "jsonwebtoken" {
   export interface JwtPayload {

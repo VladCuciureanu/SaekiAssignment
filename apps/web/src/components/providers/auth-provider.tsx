@@ -1,10 +1,10 @@
 "use client";
 
+import { UserDto } from "@saeki/schema";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { parseJwt } from "@/lib/utils";
-import { UserDto } from "@/types/saeki/user.dto";
 
 type AuthContextProps = {
   user: UserDto | null;

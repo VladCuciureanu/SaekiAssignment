@@ -1,6 +1,7 @@
+import { ComponentDto, ComponentStatus } from "@saeki/schema";
+
 import { FakePhoto } from "@/components/fake-photo";
 import { Badge } from "@/components/ui/badge";
-import { ComponentDto, ComponentStatus } from "@/types/saeki/component.dto";
 
 export function ComponentCard(props: { data: ComponentDto }) {
   return (

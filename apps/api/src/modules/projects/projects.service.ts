@@ -1,9 +1,9 @@
 import { PrismaClient, Project } from "@prisma/client";
-import { CreateProjectDto } from "./dtos/create-project.dto";
-import { UserDto } from "../users/dtos/user.dto";
-import { ProjectDto } from "./dtos/project.dto";
-import { UpdateProjectDto } from "./dtos/update-project.dto";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
+import { CreateProjectRequest } from "@saeki/schema";
+import { UserDto } from "@saeki/schema";
+import { ProjectDto } from "@saeki/schema";
+import { UpdateProjectRequest } from "@saeki/schema";
 
 export class ProjectsService {
   db: PrismaClient;
@@ -13,7 +13,7 @@ export class ProjectsService {
   }
 
   public async createProject(props: {
-    dto: CreateProjectDto;
+    dto: CreateProjectRequest;
     user: UserDto;
   }): Promise<ProjectDto> {
     const defaultMaterial = await this.db.material.findFirst({
@@ -99,7 +99,7 @@ export class ProjectsService {
 
   public async updateProject(props: {
     id: string;
-    dto: UpdateProjectDto;
+    dto: UpdateProjectRequest;
     user: UserDto;
   }): Promise<ProjectDto> {
     await this.assertEntityExists(props);

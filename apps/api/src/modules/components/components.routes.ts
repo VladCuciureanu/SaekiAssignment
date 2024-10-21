@@ -1,10 +1,10 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
-import { CreateComponentDtoSchema } from "./dtos/create-component.dto";
 import { validate } from "../common/middlewares/schema-validation.middleware";
-import { UpdateComponentDtoSchema } from "./dtos/update-component.dto";
 import { ComponentsController } from "./components.controller";
+import { CreateComponentRequestSchema } from "@saeki/schema";
+import { UpdateComponentRequestSchema } from "@saeki/schema";
 
 export function generateComponentsRouter(props: { db: PrismaClient }) {
   const router = Router();
@@ -13,7 +13,7 @@ export function generateComponentsRouter(props: { db: PrismaClient }) {
   // Create a new component
   router.post(
     "/",
-    validate(CreateComponentDtoSchema),
+    validate(CreateComponentRequestSchema),
     asyncHandler((req, res, next) => {
       return controller.createComponent(req, res, next);
     }),
@@ -38,7 +38,7 @@ export function generateComponentsRouter(props: { db: PrismaClient }) {
   // Update a component
   router.put(
     "/:id",
-    validate(UpdateComponentDtoSchema),
+    validate(UpdateComponentRequestSchema),
     asyncHandler((req, res, next) => {
       return controller.updateComponent(req, res, next);
     }),

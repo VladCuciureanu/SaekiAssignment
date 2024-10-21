@@ -1,11 +1,11 @@
-import { Prisma, PrismaClient, ComponentStatus } from "@prisma/client";
-import { CreateComponentDto } from "./dtos/create-component.dto";
-import { UserDto } from "../users/dtos/user.dto";
-import { ComponentDto } from "./dtos/component.dto";
-import { UpdateComponentDto } from "./dtos/update-component.dto";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { NotFoundException } from "../common/exceptions/not-found-exception";
 import { UnauthorizedException } from "../auth/exceptions/unauthorized.exception";
 import { ForbiddenException } from "../common/exceptions/forbidden.exception";
+import { CreateComponentRequest } from "@saeki/schema";
+import { UserDto } from "@saeki/schema";
+import { ComponentDto } from "@saeki/schema";
+import { UpdateComponentRequest } from "@saeki/schema";
 
 export class ComponentsService {
   db: PrismaClient;
@@ -15,7 +15,7 @@ export class ComponentsService {
   }
 
   public async createComponent(props: {
-    dto: CreateComponentDto;
+    dto: CreateComponentRequest;
     user: UserDto;
   }): Promise<ComponentDto> {
     const defaultMaterial = await this.db.material.findFirst({
@@ -97,7 +97,7 @@ export class ComponentsService {
 
   public async updateComponent(props: {
     id: string;
-    dto: UpdateComponentDto;
+    dto: UpdateComponentRequest;
     user: UserDto;
   }): Promise<ComponentDto> {
     const originalEntity = await this.assertEntityExists(props);

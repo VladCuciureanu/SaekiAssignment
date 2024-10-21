@@ -1,8 +1,10 @@
-import { CreateOrderDto } from "@/types/saeki/create-order.dto";
-import { OrderDto } from "@/types/saeki/order.dto";
-import { UpdateOrderDto } from "@/types/saeki/update-order.dto";
+import {
+  CreateOrderRequest,
+  OrderDto,
+  UpdateOrderRequest,
+} from "@saeki/schema";
 
-export async function createOrder(dto: CreateOrderDto): Promise<OrderDto> {
+export async function createOrder(dto: CreateOrderRequest): Promise<OrderDto> {
   return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`, {
     method: "POST",
     headers: {
@@ -33,7 +35,7 @@ export async function getOrder(id: string): Promise<OrderDto> {
 
 export async function updateOrder(
   id: string,
-  dto: UpdateOrderDto,
+  dto: UpdateOrderRequest,
 ): Promise<OrderDto> {
   return await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${id}`,

@@ -1,6 +1,5 @@
 "use client";
 
-import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
