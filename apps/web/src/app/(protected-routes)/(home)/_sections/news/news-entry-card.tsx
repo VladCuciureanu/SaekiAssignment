@@ -13,7 +13,7 @@ export function NewsEntryCard() {
         nisl at molestie.
       </p> */}
       <div className="relative h-[6.5rem] w-full">
-        <div className="absolute inset-x-0 flex h-fit flex-row gap-2 overflow-x-scroll pb-5">
+        <div className="absolute inset-x-0 flex h-fit flex-row gap-2 overflow-x-scroll pb-1">
           <FakePhoto />
           <FakePhoto />
           <FakePhoto />
@@ -23,7 +23,7 @@ export function NewsEntryCard() {
           <FakePhoto />
         </div>
       </div>
-      <p className="text-sm">
+      <p className="text-sm mt-2">
         Morbi feugiat quis massa ut ornare. Quisque posuere, tortor vitae
         hendrerit semper, nisi tellus aliquam turpis, non tincidunt mauris
         tellus id purus. Etiam id mi nulla. Pellentesque vitae erat tincidunt,
