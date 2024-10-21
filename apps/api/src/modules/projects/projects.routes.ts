@@ -5,10 +5,12 @@ import { PrismaClient } from "@prisma/client";
 import { validate } from "../common/middlewares/schema-validation.middleware";
 import { CreateProjectRequestSchema } from "@saeki/schema";
 import { UpdateProjectRequestSchema } from "@saeki/schema";
+import { ComponentsController } from "../components/components.controller";
 
 export function generateProjectsRouter(props: { db: PrismaClient }) {
   const router = Router();
   const controller = new ProjectsController({ db: props.db });
+  const componentsController = new ComponentsController({ db: props.db });
 
   // Create a new project
   router.post(
@@ -32,6 +34,14 @@ export function generateProjectsRouter(props: { db: PrismaClient }) {
     "/:id",
     asyncHandler((req, res, next) => {
       return controller.getProject(req, res, next);
+    }),
+  );
+
+  // Get a project's components by id
+  router.get(
+    "/:id/components",
+    asyncHandler((req, res, next) => {
+      return componentsController.getComponentsByProjectId(req, res, next);
     }),
   );
 

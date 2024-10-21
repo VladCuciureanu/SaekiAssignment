@@ -4,10 +4,12 @@ import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
 import { validate } from "../common/middlewares/schema-validation.middleware";
 import { CreateOrderRequestSchema } from "@saeki/schema";
+import { ComponentsController } from "../components/components.controller";
 
 export function generateOrdersRouter(props: { db: PrismaClient }) {
   const router = Router();
   const controller = new OrdersController({ db: props.db });
+  const componentsController = new ComponentsController({ db: props.db });
 
   // Create a new order
   router.post(
@@ -31,6 +33,14 @@ export function generateOrdersRouter(props: { db: PrismaClient }) {
     "/:id",
     asyncHandler((req, res, next) => {
       return controller.getOrder(req, res, next);
+    }),
+  );
+
+  // Get an order's components by id
+  router.get(
+    "/:id/components",
+    asyncHandler((req, res, next) => {
+      return componentsController.getComponentsByOrderId(req, res, next);
     }),
   );
 

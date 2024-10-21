@@ -3,11 +3,17 @@ import Link from "next/link";
 import { Fragment } from "react";
 import React from "react";
 
+import { getComponentsByOrderId } from "@/lib/components";
+
 import { ComponentCard } from "../component-card";
 import { MessageCard } from "../message-card";
 
 export function OrderCard(props: { data: OrderDto }) {
   const [components, setComponents] = React.useState<ComponentDto[]>([]);
+
+  React.useEffect(() => {
+    getComponentsByOrderId(props.data.id).then(setComponents);
+  }, [props.data.id]);
 
   return (
     <Link href={`/orders/${props.data.id}`}>

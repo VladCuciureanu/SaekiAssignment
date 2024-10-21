@@ -51,6 +51,40 @@ export class ComponentsController {
     res.json(entity);
   }
 
+  public async getComponentsByProjectId(
+    req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) {
+    const user = res.locals.user as UserDto;
+    const id = req.params.id;
+
+    if (!id) {
+      throw new InvalidPayloadException([{ id: "Project ID is required" }]);
+    }
+
+    const entities = await this.service.getComponentsByProjectId({ id, user });
+
+    res.json(entities);
+  }
+
+  public async getComponentsByOrderId(
+    req: Request,
+    res: Response,
+    _next: NextFunction,
+  ) {
+    const user = res.locals.user as UserDto;
+    const id = req.params.id;
+
+    if (!id) {
+      throw new InvalidPayloadException([{ id: "Order ID is required" }]);
+    }
+
+    const entities = await this.service.getComponentsByOrderId({ id, user });
+
+    res.json(entities);
+  }
+
   public async updateComponent(
     req: Request,
     res: Response,

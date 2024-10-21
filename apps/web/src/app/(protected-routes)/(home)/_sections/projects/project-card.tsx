@@ -3,11 +3,17 @@ import Link from "next/link";
 import { Fragment } from "react";
 import React from "react";
 
+import { getComponentsByProjectId } from "@/lib/components";
+
 import { ComponentCard } from "../component-card";
 import { MessageCard } from "../message-card";
 
 export function ProjectCard(props: { data: ProjectDto }) {
   const [components, setComponents] = React.useState<ComponentDto[]>([]);
+
+  React.useEffect(() => {
+    getComponentsByProjectId(props.data.id).then(setComponents);
+  }, [props.data.id]);
 
   return (
     <Link href={`/projects/${props.data.id}`}>

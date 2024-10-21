@@ -77,6 +77,54 @@ export class ComponentsService {
     return mappedEntities;
   }
 
+  public async getComponentsByProjectId(props: {
+    id: string;
+    user: UserDto;
+  }): Promise<ComponentDto[]> {
+    const project = await this.db.project.findFirst({
+      where: { id: props.id, clientId: props.user.id },
+    });
+
+    if (!project) {
+      throw new NotFoundException();
+    }
+
+    const entities = await this.db.component.findMany({
+      where: { projectId: props.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const mappedEntities = entities.map((it) => {
+      return ComponentDto.fromEntity(it);
+    });
+
+    return mappedEntities;
+  }
+
+  public async getComponentsByOrderId(props: {
+    id: string;
+    user: UserDto;
+  }): Promise<ComponentDto[]> {
+    const order = await this.db.order.findFirst({
+      where: { id: props.id, clientId: props.user.id },
+    });
+
+    if (!order) {
+      throw new NotFoundException();
+    }
+
+    const entities = await this.db.component.findMany({
+      where: { orderId: props.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const mappedEntities = entities.map((it) => {
+      return ComponentDto.fromEntity(it);
+    });
+
+    return mappedEntities;
+  }
+
   public async getComponent(props: {
     id: string;
     user: UserDto;
