@@ -9,10 +9,11 @@ import { ProjectDto } from "@saeki/schema";
 import { ServicePackageDto } from "@saeki/schema";
 import { UserDto } from "@saeki/schema";
 
-type ComponentToDtoProps = Prisma.ComponentGetPayload<{
-  include: { material: true; servicePackage: true };
-}>;
-ComponentDto.fromEntity = (entity: ComponentToDtoProps): ComponentDto => {
+function componentDtofromEntity(
+  entity: Prisma.ComponentGetPayload<{
+    include: { material: true; servicePackage: true };
+  }>,
+): ComponentDto {
   return new ComponentDto({
     id: entity.id,
     assetUrl: entity.assetUrl,
@@ -22,22 +23,24 @@ ComponentDto.fromEntity = (entity: ComponentToDtoProps): ComponentDto => {
     material: MaterialDto.fromEntity(entity.material),
     servicePackage: ServicePackageDto.fromEntity(entity.servicePackage),
   });
-};
+}
+ComponentDto.fromEntity = componentDtofromEntity;
 
-type MaterialToDtoProps = Material;
-MaterialDto.fromEntity = (entity: MaterialToDtoProps): MaterialDto => {
+function materialDtoFromEntity(entity: Material): MaterialDto {
   return new MaterialDto({
     id: entity.id,
     name: entity.name,
     price: entity.price,
     archived: entity.archived,
   });
-};
+}
+MaterialDto.fromEntity = materialDtoFromEntity;
 
-type OrderToDtoProps = Prisma.OrderGetPayload<{
-  include: { project: true };
-}>;
-OrderDto.fromEntity = (entity: OrderToDtoProps): OrderDto => {
+function orderDtoFromEntity(
+  entity: Prisma.OrderGetPayload<{
+    include: { project: true };
+  }>,
+): OrderDto {
   return new OrderDto({
     id: entity.id,
     status: entity.status as OrderStatus,
@@ -45,60 +48,73 @@ OrderDto.fromEntity = (entity: OrderToDtoProps): OrderDto => {
     createdAt: entity.createdAt,
     project: ProjectDto.fromEntity({ ...entity.project, components: [] }),
   });
-};
+}
+OrderDto.fromEntity = orderDtoFromEntity;
 
-type ProjectToDtoProps = Prisma.ProjectGetPayload<{
-  include: {
-    components: { include: { material: true; servicePackage: true } };
-  };
-}>;
-ProjectDto.fromEntity = (entity: ProjectToDtoProps): ProjectDto => {
+function projectDtoFromEntity(
+  entity: Prisma.ProjectGetPayload<{
+    include: {
+      components: { include: { material: true; servicePackage: true } };
+    };
+  }>,
+): ProjectDto {
   return new ProjectDto({
     id: entity.id,
     components: entity.components.map(ComponentDto.fromEntity),
     createdAt: entity.createdAt,
   });
-};
+}
+ProjectDto.fromEntity = projectDtoFromEntity;
 
-type ServicePackageToDtoProps = ServicePackage;
-ServicePackageDto.fromEntity = (
-  entity: ServicePackageToDtoProps,
-): ServicePackageDto => {
+function servicePackageDtoFromEntity(
+  entity: ServicePackage,
+): ServicePackageDto {
   return new ServicePackageDto({
     id: entity.id,
     name: entity.name,
     price: entity.price,
     archived: entity.archived,
   });
-};
+}
+ServicePackageDto.fromEntity = servicePackageDtoFromEntity;
 
-type UserToDtoProps = User;
-UserDto.fromEntity = (entity: UserToDtoProps): UserDto => {
+function userDtoFromEntity(entity: User): UserDto {
   return new UserDto({
     id: entity.id,
     email: entity.email,
   });
-};
+}
+UserDto.fromEntity = userDtoFromEntity;
 
 declare module "@saeki/schema" {
   namespace ComponentDto {
-    export function fromEntity(entity: ComponentToDtoProps): ComponentDto;
+    export function fromEntity(
+      entity: Parameters<typeof componentDtofromEntity>[0],
+    ): ComponentDto;
   }
   namespace MaterialDto {
-    export function fromEntity(entity: MaterialToDtoProps): MaterialDto;
+    export function fromEntity(
+      entity: Parameters<typeof materialDtoFromEntity>[0],
+    ): MaterialDto;
   }
   namespace OrderDto {
-    export function fromEntity(entity: OrderToDtoProps): OrderDto;
+    export function fromEntity(
+      entity: Parameters<typeof orderDtoFromEntity>[0],
+    ): OrderDto;
   }
   namespace ProjectDto {
-    export function fromEntity(entity: ProjectToDtoProps): ProjectDto;
+    export function fromEntity(
+      entity: Parameters<typeof projectDtoFromEntity>[0],
+    ): ProjectDto;
   }
   namespace ServicePackageDto {
     export function fromEntity(
-      entity: ServicePackageToDtoProps,
+      entity: Parameters<typeof servicePackageDtoFromEntity>[0],
     ): ServicePackageDto;
   }
   namespace UserDto {
-    export function fromEntity(entity: UserToDtoProps): UserDto;
+    export function fromEntity(
+      entity: Parameters<typeof userDtoFromEntity>[0],
+    ): UserDto;
   }
 }
