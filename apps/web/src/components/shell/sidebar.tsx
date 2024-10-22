@@ -59,13 +59,13 @@ export function Sidebar() {
               },
               {
                 title: "Projects",
-                label: "99",
+                // label: "99",
                 href: "/projects",
                 icon: FolderOpen,
               },
               {
                 title: "Orders",
-                label: "99",
+                // label: "99",
                 href: "/orders",
                 icon: Container,
               },
