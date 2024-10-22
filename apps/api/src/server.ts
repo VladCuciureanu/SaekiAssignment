@@ -12,15 +12,23 @@ import { generateComponentsRouter } from "./modules/components/components.routes
 import { generateOrdersRouter } from "./modules/orders/orders.routes";
 import { env } from "./modules/env";
 import cookieParser from "cookie-parser";
+import { generateMaterialsRouter } from "./modules/materials/materials.routes";
+import { generateServicePackagesRouter } from "./modules/service-packages/service-packages.routes";
 
 function generateRouter() {
   const router = express.Router();
   const db = new PrismaClient();
 
   router.use("/auth", generateAuthRouter({ db }));
-  router.use("/projects", authenticate, generateProjectsRouter({ db }));
   router.use("/components", authenticate, generateComponentsRouter({ db }));
+  router.use("/materials", authenticate, generateMaterialsRouter({ db }));
   router.use("/orders", authenticate, generateOrdersRouter({ db }));
+  router.use("/projects", authenticate, generateProjectsRouter({ db }));
+  router.use(
+    "/service-packages",
+    authenticate,
+    generateServicePackagesRouter({ db }),
+  );
 
   router.get("/health", (_, res) => {
     return res.status(200).send();

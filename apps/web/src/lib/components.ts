@@ -1,4 +1,4 @@
-import { ComponentDto } from "@saeki/schema";
+import { ComponentDto, UpdateComponentRequest } from "@saeki/schema";
 import { CreateComponentRequest } from "@saeki/schema";
 
 export async function createComponent(
@@ -60,22 +60,22 @@ export async function getComponent(id: string): Promise<ComponentDto> {
   ).then((res) => res.json());
 }
 
-// export async function updateComponent(
-//   id: string,
-//   dto: UpdateComponentDto,
-// ): Promise<ComponentDto> {
-//   return await fetch(
-//     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/components/${id}`,
-//     {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       credentials: "include",
-//       body: JSON.stringify(dto),
-//     },
-//   ).then((res) => res.json());
-// }
+export async function updateComponent(
+  id: string,
+  dto: UpdateComponentRequest,
+): Promise<ComponentDto> {
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/components/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(dto),
+    },
+  ).then((res) => res.json());
+}
 
 export async function deleteComponent(id: string): Promise<ComponentDto> {
   return await fetch(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 import { createComponent } from "@/lib/components";
@@ -12,6 +12,7 @@ type FileUploadContextProps = {
   files: File[];
   prepFilesForUpload: (files: File[]) => void;
   startUpload: () => Promise<void>;
+  routeOnSuccessfulUpload?: string;
 };
 
 export const FileUploadContext = React.createContext<FileUploadContextProps>(
@@ -32,6 +33,7 @@ export function FileUploadProvider({
   projectId,
 }: FileUploadProviderProps) {
   const router = useRouter();
+  const pathName = usePathname();
   const [files, setFiles] = React.useState<File[]>([]);
 
   async function handleUpload() {
@@ -58,7 +60,14 @@ export function FileUploadProvider({
     }
 
     setFiles([]);
-    router.push(`/projects/${projectId}`);
+
+    const targetPathName = `/projects/${projectId}`;
+    if (pathName === targetPathName) {
+      location.reload();
+    } else {
+      console.log("Pushed");
+      router.push(targetPathName);
+    }
   }
 
   function prepFilesForUpload(files: File[]) {

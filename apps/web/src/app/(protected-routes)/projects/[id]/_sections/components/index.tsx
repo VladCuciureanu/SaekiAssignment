@@ -31,7 +31,7 @@ export function ComponentsSection(props: { projectId: string }) {
         <MessageCard message="You don't have any components yet." />
       )}
       {components.map((component) => (
-        <ComponentCard data={component} key={component.id} editable />
+        <ComponentCard data={component} key={component.id} editable extended />
       ))}
     </section>
   );
