@@ -71,7 +71,7 @@ export function AddMoreFilesSection() {
             <h3 className="text-sm font-medium">
               Drag files here or click to upload files
             </h3>
-            <p className="text-sm">.step, .iges | 99999 MB limit</p>
+            <p className="text-sm">.step, .iges | 128 MB limit</p>
           </div>
         </button>
       </div>

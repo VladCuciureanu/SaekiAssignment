@@ -10,6 +10,7 @@ export async function seedDatabase({ db }: { db: PrismaClient }) {
   }
 
   console.info("Seeding materials...");
+
   await db.material.createMany({
     data: [
       {
@@ -30,6 +31,7 @@ export async function seedDatabase({ db }: { db: PrismaClient }) {
   });
 
   console.info("Seeding service packages...");
+
   await db.servicePackage.createMany({
     data: [
       {
@@ -50,6 +52,7 @@ export async function seedDatabase({ db }: { db: PrismaClient }) {
   });
 
   console.info("Seeding admin user...");
+
   await db.user.create({
     data: {
       email: "admin@saeki.ch",
@@ -58,4 +61,6 @@ export async function seedDatabase({ db }: { db: PrismaClient }) {
       isAdmin: true,
     },
   });
+
+  console.info("Finished seeding!");
 }
