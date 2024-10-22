@@ -14,6 +14,7 @@ import { getMaterial } from "@/lib/materials";
 import { getServicePackage } from "@/lib/service-packages";
 
 import { ComponentEditor } from "./component-editor";
+import { useModelViewer } from "./providers/model-viewer-provider";
 import { Button } from "./ui/button";
 
 type ComponentCardProps = {
@@ -22,6 +23,7 @@ type ComponentCardProps = {
   extended?: boolean;
 };
 export function ComponentCard(props: ComponentCardProps) {
+  const modelViewer = useModelViewer();
   const [editorOpen, setEditorOpen] = useState(false);
   const [material, setMaterial] = useState<MaterialDto | undefined>(undefined);
   const [servicePackage, setServicePackage] = useState<
@@ -39,6 +41,14 @@ export function ComponentCard(props: ComponentCardProps) {
       getServicePackage(props.data.servicePackageId).then(setServicePackage),
     ]).then(() => setLoading(false));
   }, []);
+
+  function handleOpenModelViewer() {
+    fetch(
+      "https://raw.githubusercontent.com/kovacsv/occt-import-js/main/test/testfiles/cax-if/as1_pe_203.stp",
+    )
+      .then((res) => res.arrayBuffer())
+      .then((buf) => modelViewer.setFile(new File([buf], "as1_pe_203.stp")));
+  }
 
   return (
     <article className="flex w-full flex-row gap-2 p-4 rounded-lg border">
@@ -79,7 +89,7 @@ export function ComponentCard(props: ComponentCardProps) {
         </div>
       </div>
       <div className="h-full flex flex-col justify-between items-end">
-        <FakePhoto />
+        <FakePhoto onClick={handleOpenModelViewer} />
         {props.editable && (
           <div className="flex flex-row-reverse gap-2 items-center">
             <Button

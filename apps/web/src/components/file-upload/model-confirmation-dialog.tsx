@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
+import { Basic3DViewer } from "../model-viewer/basic";
 import { Button } from "../ui/button";
 import { useFileUpload } from "./context";
 
@@ -35,11 +36,11 @@ export function ModelConfirmationDialog() {
   return (
     <Dialog
       open={files.length > 0}
-      onOpenChange={(open) => {
+      onOpenChange={(open: boolean) => {
         if (!open) handleCancel();
       }}
     >
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <div>
           <div className="flex flex-row items-center gap-2">
             <DialogTitle>Create new project</DialogTitle>
@@ -52,8 +53,8 @@ export function ModelConfirmationDialog() {
           </DialogDescription>
         </div>
         <div className="relative">
-          <div className="bg-foreground/10 aspect-video w-full rounded-lg">
-            {files.at(currentIdx)?.name ?? "Error"}
+          <div className="border rounded-lg overflow-hidden aspect-video w-full">
+            <Basic3DViewer url={null} file={files[currentIdx]!} />
           </div>
           <Button
             size="icon"
