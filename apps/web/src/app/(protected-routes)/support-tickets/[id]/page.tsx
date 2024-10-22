@@ -1,13 +1,17 @@
 "use client";
 
-import { MessageDto, SupportTicketDto } from "@saeki/schema";
-import { Loader } from "lucide-react";
+import {
+  MessageDto,
+  SupportTicketDto,
+  SupportTicketStatus,
+} from "@saeki/schema";
+import { Ban, Loader } from "lucide-react";
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createMessage, getMessagesBySupportTicketId } from "@/lib/messages";
-import { getSupportTicket } from "@/lib/support-tickets";
+import { deleteSupportTicket, getSupportTicket } from "@/lib/support-tickets";
 
 import { MessageGroupRenderer } from "./message-group-renderer";
 
@@ -50,6 +54,12 @@ export default function SupportTicketPage({
     });
   }
 
+  function handleCloseTicket() {
+    deleteSupportTicket(params.id).then(() => {
+      location.reload();
+    });
+  }
+
   const messagesGroupedByUser = groupMessagesByUserId(messages);
 
   if (loading) {
@@ -66,13 +76,27 @@ export default function SupportTicketPage({
     <main>
       <div className="mx-auto flex h-full w-full flex-1 flex-col space-y-6 p-8 max-w-[1280px]">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              Support Ticket {params.id}
-            </h2>
-            <p className="text-muted-foreground">
-              Related to: Order {supportTicket?.orderId}
-            </p>
+          <div className="w-full flex flex-row items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">
+                Support Ticket {params.id}
+              </h2>
+              <p className="text-muted-foreground">
+                Related to: Order {supportTicket?.orderId}
+              </p>
+            </div>
+            <div>
+              <Button
+                size="sm"
+                variant="destructive"
+                className="w-min flex flex-row items-center gap-1.5"
+                onClick={handleCloseTicket}
+                disabled={supportTicket.status !== SupportTicketStatus.Open}
+              >
+                <Ban className="h-3 w-3 -ml-0.5" />
+                Close
+              </Button>
+            </div>
           </div>
         </div>
         <div className="w-full p-4 rounded-lg border relative h-[calc(100vh-13rem)] overflow-y-scroll">

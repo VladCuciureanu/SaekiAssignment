@@ -76,8 +76,8 @@ export function Sidebar() {
             isCollapsed={sidebarCollapsed}
             links={[
               {
-                href: "/support",
-                title: "Support",
+                href: "/support-tickets",
+                title: "Support Tickets",
                 icon: MessageSquare,
               },
             ]}

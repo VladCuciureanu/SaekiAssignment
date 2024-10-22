@@ -13,7 +13,6 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  // read route params
   const id = params.id;
 
   return {
