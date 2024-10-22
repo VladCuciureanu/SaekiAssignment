@@ -12,7 +12,7 @@ model Component {
   readOnly  Boolean         @default(false)
 
   file             File           @relation(fields: [fileId], references: [id])
-  fileId           String         @unique
+  fileId           String
   material         Material       @relation(fields: [materialId], references: [id])
   materialId       String
   order            Order?         @relation(fields: [orderId], references: [id])
@@ -30,9 +30,9 @@ model File {
   name String
   uri  String
 
-  client    User       @relation(fields: [clientId], references: [id])
-  clientId  String
-  component Component?
+  client     User        @relation(fields: [clientId], references: [id])
+  clientId   String
+  components Component[]
 }
 
 model Material {
