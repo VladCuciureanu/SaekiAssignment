@@ -7,6 +7,6 @@ export type CreateComponentRequest = z.infer<
 export const CreateComponentRequestSchema = z
   .object({
     projectId: z.string(),
-    assetUrl: z.string().url(),
+    fileId: z.string(),
   })
   .strict();

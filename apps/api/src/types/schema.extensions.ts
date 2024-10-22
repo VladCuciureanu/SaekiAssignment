@@ -7,9 +7,10 @@ import {
   Project,
   ServicePackage,
   SupportTicket,
+  File,
   User,
 } from "@prisma/client";
-import { ComponentDto, MessageDto } from "@saeki/schema";
+import { ComponentDto, FileDto, MessageDto } from "@saeki/schema";
 import { ComponentStatus } from "@saeki/schema";
 import { MaterialDto } from "@saeki/schema";
 import { OrderDto } from "@saeki/schema";
@@ -25,15 +26,23 @@ function componentDtofromEntity(entity: Component): ComponentDto {
     id: entity.id,
     status: entity.status as ComponentStatus,
     readOnly: entity.readOnly,
-    assetUrl: entity.assetUrl,
     quantity: entity.quantity,
     unitPrice: entity.unitPrice ?? undefined,
+    fileId: entity.fileId,
     materialId: entity.materialId,
     servicePackageId: entity.servicePackageId,
     createdAt: entity.createdAt,
   });
 }
 ComponentDto.fromEntity = componentDtofromEntity;
+
+function fileDtoFromEntity(entity: File): FileDto {
+  return new FileDto({
+    id: entity.id,
+    name: entity.name,
+  });
+}
+FileDto.fromEntity = fileDtoFromEntity;
 
 function materialDtoFromEntity(entity: Material): MaterialDto {
   return new MaterialDto({
@@ -128,6 +137,11 @@ declare module "@saeki/schema" {
     export function fromEntity(
       entity: Parameters<typeof componentDtofromEntity>[0],
     ): ComponentDto;
+  }
+  namespace FileDto {
+    export function fromEntity(
+      entity: Parameters<typeof fileDtoFromEntity>[0],
+    ): FileDto;
   }
   namespace MaterialDto {
     export function fromEntity(

@@ -49,7 +49,7 @@ export class ComponentsService {
     const entity = await this.db.component.create({
       data: {
         projectId: props.dto.projectId,
-        assetUrl: props.dto.assetUrl,
+        fileId: props.dto.fileId,
         materialId: defaultMaterial.id,
         servicePackageId: defaultServicePackage.id,
       },

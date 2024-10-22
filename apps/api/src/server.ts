@@ -16,6 +16,7 @@ import { generateServicePackagesRouter } from "./modules/service-packages/servic
 import { getDatabase } from "./modules/db";
 import { generateSupportTicketsRouter } from "./modules/support-tickets/support-tickets.routes";
 import { generateMessagesRouter } from "./modules/messages/messages.routes";
+import { generateFilesRouter } from "./modules/files/files.routes";
 
 function generateRouter() {
   const router = express.Router();
@@ -23,6 +24,7 @@ function generateRouter() {
 
   router.use("/auth", generateAuthRouter({ db }));
   router.use("/components", authenticate, generateComponentsRouter({ db }));
+  router.use("/files", authenticate, generateFilesRouter({ db }));
   router.use("/materials", authenticate, generateMaterialsRouter({ db }));
   router.use("/messages", authenticate, generateMessagesRouter({ db }));
   router.use("/orders", authenticate, generateOrdersRouter({ db }));

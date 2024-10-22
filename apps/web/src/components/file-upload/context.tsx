@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 import { createComponent } from "@/lib/components";
+import { createFile } from "@/lib/files";
 import { createProject } from "@/lib/projects";
 
 import { ModelConfirmationDialog } from "./model-confirmation-dialog";
@@ -40,16 +41,22 @@ export function FileUploadProvider({
     if (projectId) {
       await Promise.all(
         files.map(async (file) => {
+          const res = await createFile(file);
           await createComponent({
             projectId: projectId!,
-            assetUrl: `https://google.com/${encodeURIComponent(file.name)}`,
+            fileId: res.id,
           });
         }),
       ).catch(console.error);
     } else {
+      const createdFiles = await Promise.all(
+        files.map(async (file) => {
+          return await createFile(file);
+        }),
+      );
       const project = await createProject({
-        components: files.map((file) => ({
-          assetUrl: `https://google.com/${encodeURIComponent(file.name)}`,
+        components: createdFiles.map((file) => ({
+          fileId: file.id,
         })),
       });
       projectId = project.id;

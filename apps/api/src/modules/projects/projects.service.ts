@@ -50,7 +50,7 @@ export class ProjectsService {
           createMany: {
             data: props.dto.components.map((it) => {
               return {
-                assetUrl: it.assetUrl,
+                fileId: it.fileId,
                 materialId: defaultMaterial?.id,
                 servicePackageId: defaultServicePackage?.id,
               };

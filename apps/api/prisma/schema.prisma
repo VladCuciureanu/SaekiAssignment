@@ -7,11 +7,12 @@ enum ComponentStatus {
 model Component {
   id        String          @id @default(cuid())
   status    ComponentStatus @default(Created)
-  assetUrl  String
   quantity  Int             @default(1)
   unitPrice Float?
   readOnly  Boolean         @default(false)
 
+  file             File           @relation(fields: [fileId], references: [id])
+  fileId           String         @unique
   material         Material       @relation(fields: [materialId], references: [id])
   materialId       String
   order            Order?         @relation(fields: [orderId], references: [id])
@@ -22,6 +23,16 @@ model Component {
   servicePackageId String
 
   createdAt DateTime @default(now())
+}
+
+model File {
+  id   String @id @default(cuid())
+  name String
+  uri  String
+
+  client    User       @relation(fields: [clientId], references: [id])
+  clientId  String
+  component Component?
 }
 
 model Material {
@@ -126,9 +137,10 @@ model User {
   passwordHash String
   isAdmin      Boolean @default(false)
 
-  projects Project[]
-  orders   Order[]
+  files    File[]
   messages Message[]
+  orders   Order[]
+  projects Project[]
 }
 
 generator client {

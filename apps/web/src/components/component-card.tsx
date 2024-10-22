@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { FakePhoto } from "@/components/fake-photo";
 import { Badge } from "@/components/ui/badge";
 import { deleteComponent } from "@/lib/components";
+import { getFile, getFileRaw } from "@/lib/files";
 import { getMaterial } from "@/lib/materials";
 import { getServicePackage } from "@/lib/service-packages";
 
@@ -42,12 +43,10 @@ export function ComponentCard(props: ComponentCardProps) {
     ]).then(() => setLoading(false));
   }, []);
 
-  function handleOpenModelViewer() {
-    fetch(
-      "https://raw.githubusercontent.com/kovacsv/occt-import-js/main/test/testfiles/cax-if/as1_pe_203.stp",
-    )
-      .then((res) => res.arrayBuffer())
-      .then((buf) => modelViewer.setFile(new File([buf], "as1_pe_203.stp")));
+  async function handleOpenModelViewer() {
+    const fileData = await getFile(props.data.fileId);
+    const blob = await getFileRaw(fileData.id);
+    modelViewer.setFile(new File([blob], fileData.name));
   }
 
   return (

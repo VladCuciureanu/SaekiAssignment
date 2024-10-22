@@ -3,7 +3,7 @@ import { ComponentStatus } from "../enums/component-status.enum";
 export class ComponentDto {
   id: string;
   status: ComponentStatus;
-  assetUrl: string;
+  fileId: string;
   quantity: number;
   unitPrice?: number;
   readOnly: boolean;
@@ -18,7 +18,7 @@ export class ComponentDto {
     id: string;
     status: ComponentStatus;
     readOnly: boolean;
-    assetUrl: string;
+    fileId: string;
     quantity: number;
     unitPrice?: number;
     materialId: string;
@@ -28,7 +28,7 @@ export class ComponentDto {
     this.id = props.id;
     this.status = props.status;
     this.readOnly = props.readOnly;
-    this.assetUrl = props.assetUrl;
+    this.fileId = props.fileId;
     this.quantity = props.quantity;
     this.unitPrice = props.unitPrice;
     this.materialId = props.materialId;
@@ -41,7 +41,7 @@ export class ComponentDto {
       id: json.id,
       status: json.status,
       readOnly: json.readOnly,
-      assetUrl: json.assetUrl,
+      fileId: json.fileId,
       quantity: json.quantity,
       unitPrice: json.unitPrice,
       materialId: json.materialId,

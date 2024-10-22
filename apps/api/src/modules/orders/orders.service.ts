@@ -48,7 +48,7 @@ export class OrdersService {
           createMany: {
             data: project.components.map((it) => ({
               status: it.status,
-              assetUrl: it.assetUrl,
+              fileId: it.fileId,
               quantity: it.quantity,
               unitPrice: it.unitPrice,
               readOnly: true,

@@ -6,3 +6,4 @@ export * from "./project.dto";
 export * from "./service-package.dto";
 export * from "./support-ticket.dto";
 export * from "./user.dto";
+export * from "./file.dto";
