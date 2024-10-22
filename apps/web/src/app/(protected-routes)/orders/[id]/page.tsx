@@ -1,23 +1,22 @@
 "use client";
 
-import { ProjectDto } from "@saeki/schema";
+import { OrderDto } from "@saeki/schema";
 import React, { useState } from "react";
 
-import { FileUploadProvider } from "@/components/file-upload/context";
-import { getProject } from "@/lib/projects";
+import { getOrder } from "@/lib/orders";
 
-import { AddMoreFilesSection } from "./_sections/add-more-files";
-import { ComponentsSection } from "./_sections/components";
-import { OrderFormSection } from "./_sections/order-form";
+import { OrderComponentsSection } from "./_sections/components";
+import { OrderDetailsSection } from "./_sections/order-details";
+import { OrderStatusSection } from "./_sections/order-status";
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
-  const [project, setProject] = useState<ProjectDto | null>(null);
+export default function OrderPage({ params }: { params: { id: string } }) {
+  const [order, setOrder] = useState<OrderDto | null>(null);
   const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
-    getProject(params.id)
+    getOrder(params.id)
       .then((res) => {
-        setProject(res);
+        setOrder(res);
       })
       .finally(() => {
         setLoading(false);
@@ -30,7 +29,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
-              Project {params.id}
+              Order {params.id}
             </h2>
             {/* <p className="text-muted-foreground">
               What can we help you with today?
@@ -39,13 +38,11 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
         </div>
         <div className="flex w-full flex-col justify-between gap-4 lg:flex-row lg:gap-6">
           <div className="flex w-full flex-col gap-4">
-            <ComponentsSection projectId={params.id} />
-            <FileUploadProvider projectId={params.id}>
-              <AddMoreFilesSection />
-            </FileUploadProvider>
+            {order && <OrderStatusSection order={order} />}
+            <OrderComponentsSection orderId={params.id} />
           </div>
-          <div className="w-full">
-            <OrderFormSection projectId={params.id} />
+          <div className="w-full flex flex-col gap-4">
+            {order && <OrderDetailsSection order={order} />}
           </div>
         </div>
       </div>

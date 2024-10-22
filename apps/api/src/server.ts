@@ -2,7 +2,6 @@ import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { PrismaClient } from "@prisma/client";
 import { exceptionsHandler } from "./modules/common/middlewares/exceptions-handler.middleware";
 import { routeNotFound } from "./modules/common/middlewares/route-not-found.middleware";
 import { generateAuthRouter } from "./modules/auth/auth.routes";
@@ -14,10 +13,11 @@ import { env } from "./modules/env";
 import cookieParser from "cookie-parser";
 import { generateMaterialsRouter } from "./modules/materials/materials.routes";
 import { generateServicePackagesRouter } from "./modules/service-packages/service-packages.routes";
+import { getDatabase } from "./modules/db";
 
 function generateRouter() {
   const router = express.Router();
-  const db = new PrismaClient();
+  const db = getDatabase();
 
   router.use("/auth", generateAuthRouter({ db }));
   router.use("/components", authenticate, generateComponentsRouter({ db }));

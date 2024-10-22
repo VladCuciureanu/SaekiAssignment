@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client/extension";
+import { PrismaClient } from "@prisma/client";
 import { seedDatabase } from "./seeder";
 import { env, Environments } from "../env";
 

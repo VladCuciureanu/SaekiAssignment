@@ -34,6 +34,15 @@ export class ProjectsService {
       throw new NotFoundException();
     }
 
+    const client = await this.db.user.findUnique({
+      where: { id: props.user.id },
+    });
+
+    if (!client) {
+      console.error("Client not found");
+      throw new NotFoundException();
+    }
+
     const entity = await this.db.project.create({
       data: {
         clientId: props.user.id,

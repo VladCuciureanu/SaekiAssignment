@@ -26,7 +26,7 @@ model Component {
 
 model Material {
   id       String  @id @default(cuid())
-  name     String  @unique
+  name     String
   price    Float
   archived Boolean @default(false)
   default  Boolean @default(false)
@@ -58,8 +58,23 @@ enum OrderStatus {
 }
 
 model Order {
-  id     String      @id @default(cuid())
-  status OrderStatus @default(PaymentDue)
+  id         String      @id @default(cuid())
+  status     OrderStatus @default(PaymentDue)
+  firstName  String
+  lastName   String
+  company    String
+  phone      String
+  email      String
+  address1   String
+  address2   String?
+  city       String
+  region     String
+  zip        String
+  country    String
+  cardNumber String
+  nameOnCard String
+  expiryDate String
+  cvc        String
 
   client         User            @relation(fields: [clientId], references: [id])
   clientId       String

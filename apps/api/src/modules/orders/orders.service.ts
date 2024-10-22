@@ -28,6 +28,21 @@ export class OrdersService {
 
     const entity = await this.db.order.create({
       data: {
+        firstName: props.dto.firstName,
+        lastName: props.dto.lastName,
+        company: props.dto.company,
+        phone: props.dto.phone,
+        email: props.dto.email,
+        address1: props.dto.address1,
+        address2: props.dto.address2,
+        city: props.dto.city,
+        region: props.dto.region,
+        zip: props.dto.zip,
+        country: props.dto.country,
+        cardNumber: props.dto.cardNumber,
+        nameOnCard: props.dto.nameOnCard,
+        expiryDate: props.dto.expiryDate,
+        cvc: props.dto.cvc,
         clientId: props.user.id,
         components: {
           createMany: {
