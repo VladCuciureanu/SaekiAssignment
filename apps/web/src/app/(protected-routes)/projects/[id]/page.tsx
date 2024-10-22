@@ -1,6 +1,7 @@
 "use client";
 
 import { ProjectDto } from "@saeki/schema";
+import { Loader } from "lucide-react";
 import React, { useState } from "react";
 
 import { FileUploadProvider } from "@/components/file-upload/context";
@@ -24,6 +25,17 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
       })
       .catch(console.error);
   }, []);
+
+  if (loading) {
+    return (
+      <main>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50">
+          <Loader className="animate-spin" />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main>
       <div className="mx-auto flex h-full w-full flex-1 flex-col space-y-6 p-8 max-w-[1280px]">
