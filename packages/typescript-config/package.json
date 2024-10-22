@@ -1,8 +1,12 @@
 {
   "name": "@saeki/typescript-config",
   "version": "0.0.0",
+  "author": {
+    "name": "Vlad Cuciureanu",
+    "email": "vlad@cuciureanu.net",
+    "url": "https://vlad.cuciureanu.net"
+  },
   "private": true,
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

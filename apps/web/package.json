@@ -1,6 +1,11 @@
 {
   "name": "web",
   "version": "0.1.0",
+  "author": {
+    "name": "Vlad Cuciureanu",
+    "email": "vlad@cuciureanu.net",
+    "url": "https://vlad.cuciureanu.net"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

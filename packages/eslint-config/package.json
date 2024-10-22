@@ -1,6 +1,11 @@
 {
   "name": "@saeki/eslint-config",
   "version": "0.0.0",
+  "author": {
+    "name": "Vlad Cuciureanu",
+    "email": "vlad@cuciureanu.net",
+    "url": "https://vlad.cuciureanu.net"
+  },
   "private": true,
   "files": [
     "library.js",

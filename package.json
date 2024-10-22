@@ -3,8 +3,8 @@
   "private": true,
   "author": {
     "name": "Vlad Cuciureanu",
-    "url": "https://vlad.cuciureanu.net",
-    "email": "vlad@cuciureanu.net"
+    "email": "vlad@cuciureanu.net",
+    "url": "https://vlad.cuciureanu.net"
   },
   "scripts": {
     "build": "turbo build",
