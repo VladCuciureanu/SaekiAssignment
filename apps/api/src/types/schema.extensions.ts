@@ -2,13 +2,14 @@
 import {
   Component,
   Material,
+  Message,
   Order,
   Project,
   ServicePackage,
   SupportTicket,
   User,
 } from "@prisma/client";
-import { ComponentDto } from "@saeki/schema";
+import { ComponentDto, MessageDto } from "@saeki/schema";
 import { ComponentStatus } from "@saeki/schema";
 import { MaterialDto } from "@saeki/schema";
 import { OrderDto } from "@saeki/schema";
@@ -44,6 +45,17 @@ function materialDtoFromEntity(entity: Material): MaterialDto {
   });
 }
 MaterialDto.fromEntity = materialDtoFromEntity;
+
+function messageDtoFromEntity(entity: Message): MessageDto {
+  return new MessageDto({
+    id: entity.id,
+    content: entity.content,
+    senderId: entity.senderId,
+    supportTicketId: entity.supportTicketId,
+    createdAt: entity.createdAt,
+  });
+}
+MessageDto.fromEntity = messageDtoFromEntity;
 
 function orderDtoFromEntity(entity: Order): OrderDto {
   return new OrderDto({
@@ -121,6 +133,11 @@ declare module "@saeki/schema" {
     export function fromEntity(
       entity: Parameters<typeof materialDtoFromEntity>[0],
     ): MaterialDto;
+  }
+  namespace MessageDto {
+    export function fromEntity(
+      entity: Parameters<typeof messageDtoFromEntity>[0],
+    ): MessageDto;
   }
   namespace OrderDto {
     export function fromEntity(

@@ -6,3 +6,5 @@ export * from "./register.request";
 export * from "./update-component.request";
 export * from "./update-order.request";
 export * from "./update-project.request";
+export * from "./create-support-ticket.request";
+export * from "./create-message.request";

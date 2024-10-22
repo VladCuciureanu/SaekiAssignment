@@ -14,6 +14,8 @@ import cookieParser from "cookie-parser";
 import { generateMaterialsRouter } from "./modules/materials/materials.routes";
 import { generateServicePackagesRouter } from "./modules/service-packages/service-packages.routes";
 import { getDatabase } from "./modules/db";
+import { generateSupportTicketsRouter } from "./modules/support-tickets/support-tickets.routes";
+import { generateMessagesRouter } from "./modules/messages/messages.routes";
 
 function generateRouter() {
   const router = express.Router();
@@ -22,12 +24,18 @@ function generateRouter() {
   router.use("/auth", generateAuthRouter({ db }));
   router.use("/components", authenticate, generateComponentsRouter({ db }));
   router.use("/materials", authenticate, generateMaterialsRouter({ db }));
+  router.use("/messages", authenticate, generateMessagesRouter({ db }));
   router.use("/orders", authenticate, generateOrdersRouter({ db }));
   router.use("/projects", authenticate, generateProjectsRouter({ db }));
   router.use(
     "/service-packages",
     authenticate,
     generateServicePackagesRouter({ db }),
+  );
+  router.use(
+    "/support-tickets",
+    authenticate,
+    generateSupportTicketsRouter({ db }),
   );
 
   router.get("/health", (_, res) => {

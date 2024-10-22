@@ -6,9 +6,10 @@ import React, { useState } from "react";
 
 import { getOrder } from "@/lib/orders";
 
+import { OrderActionsSection } from "./_sections/actions";
 import { OrderComponentsSection } from "./_sections/components";
-import { OrderDetailsSection } from "./_sections/order-details";
-import { OrderStatusSection } from "./_sections/order-status";
+import { OrderDetailsSection } from "./_sections/details";
+import { OrderStatusSection } from "./_sections/status";
 
 export default function OrderPage({ params }: { params: { id: string } }) {
   const [order, setOrder] = useState<OrderDto | null>(null);
@@ -51,6 +52,7 @@ export default function OrderPage({ params }: { params: { id: string } }) {
         <div className="flex w-full flex-col justify-between gap-4 lg:flex-row lg:gap-6">
           <div className="flex w-full flex-col gap-4">
             {order && <OrderStatusSection order={order} />}
+            {order && <OrderActionsSection order={order} />}
             <OrderComponentsSection orderId={params.id} />
           </div>
           <div className="w-full flex flex-col gap-4">
