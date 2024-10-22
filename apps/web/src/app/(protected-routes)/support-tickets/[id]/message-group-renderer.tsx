@@ -1,6 +1,7 @@
 import { MessageDto } from "@saeki/schema";
 
 import { useAuth } from "@/components/providers/auth-provider";
+import { cn } from "@/lib/utils";
 
 export function MessageGroupRenderer(props: { messages: MessageDto[] }) {
   const { messages } = props;
@@ -8,33 +9,52 @@ export function MessageGroupRenderer(props: { messages: MessageDto[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {messages.map((message) => {
-        const isUser = message.senderId === currentUser?.id;
-        return (
-          <div
-            key={message.id}
-            className={`flex flex-col gap-2 w-full ${
-              isUser ? "items-end" : "items-start"
-            }`}
-          >
+      <div className="flex flex-col gap-1">
+        {messages.map((message, idx) => {
+          const isCurrentUser = message.senderId === currentUser?.id;
+          return (
             <div
-              className={`flex flex-col gap-1 p-2 rounded-lg ${
-                isUser ? "bg-primary" : "bg-foreground/10"
+              key={message.id}
+              className={`flex flex-col gap-2 w-full ${
+                isCurrentUser ? "items-end" : "items-start"
               }`}
             >
-              <p className="text-sm">{message.content}</p>
-              <p className="text-xs text-muted-foreground">
-                {`${!isToday(new Date(message.createdAt)) ? `${new Date(message.createdAt).toDateString()} - ` : ""}${new Date(
-                  message.createdAt,
-                ).toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`}
-              </p>
+              {idx === 0 && !isCurrentUser && (
+                <p className="font-bold text-sm tracking-tight -mb-2.5 ml-1">
+                  Saeki
+                </p>
+              )}
+              <div className="flex flex-col items-end w-fit">
+                <div
+                  className={cn(
+                    "w-full flex flex-col gap-1 p-2 rounded-lg max-w-[450px] break-words hyphens-auto",
+                    isCurrentUser
+                      ? "bg-primary dark:bg-primary/25"
+                      : "bg-foreground/10",
+                  )}
+                >
+                  <p className="text-sm">{message.content}</p>
+                </div>
+                {((messages.at(idx + 1) &&
+                  new Date(
+                    messages.at(idx + 1)?.createdAt as any,
+                  ).getMinutes() !==
+                    new Date(message.createdAt).getMinutes()) ||
+                  idx === messages.length - 1) && (
+                  <p className="text-xs text-muted-foreground ml-1">
+                    {`${!isToday(new Date(message.createdAt)) ? `${new Date(message.createdAt).toDateString()} - ` : ""}${new Date(
+                      message.createdAt,
+                    ).toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

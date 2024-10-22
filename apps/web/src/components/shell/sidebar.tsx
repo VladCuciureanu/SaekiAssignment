@@ -77,7 +77,7 @@ export function Sidebar() {
             links={[
               {
                 href: "/support-tickets",
-                title: "Support Tickets",
+                title: "Support",
                 icon: MessageSquare,
               },
             ]}

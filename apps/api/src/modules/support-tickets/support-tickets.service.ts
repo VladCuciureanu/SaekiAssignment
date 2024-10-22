@@ -32,8 +32,10 @@ export class SupportTicketsService {
   public async getManySupportTickets(props: {
     user: UserDto;
   }): Promise<SupportTicketDto[]> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entities = await this.db.supportTicket.findMany({
-      where: { order: { clientId: props.user.id } },
+      where: { order: { clientId: userIdCriteria } },
       include: {
         order: true,
       },
@@ -51,8 +53,10 @@ export class SupportTicketsService {
     id: string;
     user: UserDto;
   }): Promise<SupportTicketDto> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entity = await this.db.supportTicket.findFirst({
-      where: { id: props.id, order: { clientId: props.user.id } },
+      where: { id: props.id, order: { clientId: userIdCriteria } },
       include: {
         order: true,
       },
@@ -90,8 +94,10 @@ export class SupportTicketsService {
     id: string;
     user: UserDto;
   }): Promise<SupportTicket> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entity = await this.db.supportTicket.findFirst({
-      where: { id: props.id, order: { clientId: props.user.id } },
+      where: { id: props.id, order: { clientId: userIdCriteria } },
     });
     if (!entity) {
       throw new NotFoundException();

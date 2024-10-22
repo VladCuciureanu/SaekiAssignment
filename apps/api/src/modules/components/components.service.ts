@@ -81,8 +81,10 @@ export class ComponentsService {
     id: string;
     user: UserDto;
   }): Promise<ComponentDto[]> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const project = await this.db.project.findFirst({
-      where: { id: props.id, clientId: props.user.id },
+      where: { id: props.id, clientId: userIdCriteria },
     });
 
     if (!project) {
@@ -105,8 +107,10 @@ export class ComponentsService {
     id: string;
     user: UserDto;
   }): Promise<ComponentDto[]> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const order = await this.db.order.findFirst({
-      where: { id: props.id, clientId: props.user.id },
+      where: { id: props.id, clientId: userIdCriteria },
     });
 
     if (!order) {
@@ -129,8 +133,10 @@ export class ComponentsService {
     id: string;
     user: UserDto;
   }): Promise<ComponentDto> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entity = await this.db.component.findFirst({
-      where: { id: props.id, project: { clientId: props.user.id } },
+      where: { id: props.id, project: { clientId: userIdCriteria } },
       include: { material: true, servicePackage: true },
     });
 

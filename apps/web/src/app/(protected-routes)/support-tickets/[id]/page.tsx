@@ -6,6 +6,7 @@ import {
   SupportTicketStatus,
 } from "@saeki/schema";
 import { Ban, Loader } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -82,7 +83,14 @@ export default function SupportTicketPage({
                 Support Ticket {params.id}
               </h2>
               <p className="text-muted-foreground">
-                Related to: Order {supportTicket?.orderId}
+                Related to:{" "}
+                <Link
+                  href={`/orders/${supportTicket?.orderId}`}
+                  className="underline"
+                  target="_blank"
+                >
+                  Order {supportTicket?.orderId}
+                </Link>
               </p>
             </div>
             <div>

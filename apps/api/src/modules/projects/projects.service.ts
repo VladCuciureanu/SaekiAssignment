@@ -90,8 +90,10 @@ export class ProjectsService {
     id: string;
     user: UserDto;
   }): Promise<ProjectDto> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entity = await this.db.project.findFirst({
-      where: { id: props.id, clientId: props.user.id },
+      where: { id: props.id, clientId: userIdCriteria },
       include: {
         components: { include: { material: true, servicePackage: true } },
       },

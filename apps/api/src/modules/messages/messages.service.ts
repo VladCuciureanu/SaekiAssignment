@@ -15,10 +15,12 @@ export class MessagesService {
     dto: CreateMessageRequest;
     user: UserDto;
   }): Promise<MessageDto> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const supportTicket = await this.db.supportTicket.findFirst({
       where: {
         id: props.dto.supportTicketId,
-        order: { clientId: props.user.id },
+        order: { clientId: userIdCriteria },
       },
       include: { order: true },
     });
@@ -44,8 +46,10 @@ export class MessagesService {
     id: string;
     user: UserDto;
   }): Promise<MessageDto[]> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const supportTicket = await this.db.supportTicket.findFirst({
-      where: { id: props.id, order: { clientId: props.user.id } },
+      where: { id: props.id, order: { clientId: userIdCriteria } },
       include: { order: true },
     });
 

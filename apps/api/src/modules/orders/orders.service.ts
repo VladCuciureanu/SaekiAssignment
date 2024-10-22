@@ -83,8 +83,10 @@ export class OrdersService {
     id: string;
     user: UserDto;
   }): Promise<OrderDto> {
+    const userIdCriteria = !props.user.isAdmin ? props.user.id : undefined;
+
     const entity = await this.db.order.findFirst({
-      where: { id: props.id, clientId: props.user.id },
+      where: { id: props.id, clientId: userIdCriteria },
     });
 
     if (!entity) {
