@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { InputField } from "@/components/input-field";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { createOrder } from "@/lib/orders";
 
 export function OrderFormSection(props: { projectId: string }) {
@@ -211,36 +210,5 @@ export function OrderFormSection(props: { projectId: string }) {
         Order
       </Button>
     </section>
-  );
-}
-
-type InputFieldProps = {
-  id: string;
-  label?: string;
-  placeholder: string;
-  required?: boolean;
-  value: string;
-  onChange: (value: string) => void;
-};
-
-function InputField(props: InputFieldProps) {
-  return (
-    <div className="flex flex-col gap-2 w-full">
-      {props.label && (
-        <Label htmlFor="input-first-name" className="flex flex-row">
-          {props.label}
-          {props.required && <b className="font-bold ml-0.5 text-red-400">*</b>}
-        </Label>
-      )}
-      <Input
-        type="text"
-        id={`input-${props.id}`}
-        name={`input-${props.id}`}
-        placeholder={props.placeholder}
-        className="w-full"
-        value={props.value}
-        onChange={(ev) => props.onChange(ev.target.value)}
-      />
-    </div>
   );
 }
